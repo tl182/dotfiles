@@ -41,20 +41,22 @@ if dein#load_state(s:bundle_dir)
     call dein#add('sheerun/vim-polyglot')
     " call dein#add('Shougo/neopairs.vim')
 
-    " Autocomplition, snippets
+    " Autocomplition, snippets, linting
     call dein#add('Shougo/context_filetype.vim')
     call dein#add('Shougo/deoplete.nvim')
-    call dein#add('zchee/deoplete-jedi')
     call dein#add('Shougo/neco-vim')
     call dein#add('Shougo/echodoc.vim')
     call dein#add('ervandew/supertab')
     call dein#add('Shougo/neosnippet.vim')
     call dein#add('Shougo/neosnippet-snippets')
     call dein#add('honza/vim-snippets')
+    call dein#add('w0rp/ale')
 
     " Python
+    call dein#add('zchee/deoplete-jedi')
     " call dein#add('davidhalter/jedi-vim')
     call dein#add('hdima/python-syntax')
+    call dein#add('mindriot101/vim-yapf')
 
     " Go
     call dein#add('zchee/deoplete-go', {'build': 'make'})
@@ -255,8 +257,6 @@ let g:airline#extensions#default#layout = [
             \ [ 'a', 'error', 'warning', 'b', 'c' ],
             \ [ 'x', 'y', 'z' ]
             \ ]
-let g:airline#extensions#ale#error_symbol = '•'
-let g:airline#extensions#ale#warning_symbol = '•'
 " Webdevicons
 let g:webdevicons_enable_vimfiler=1
 let g:webdevicons_enable_airline_tabline=1
@@ -353,7 +353,7 @@ let g:signify_realtime = 1
 " deoplete
 let g:deoplete#enable_at_startup = 1
 let g:deoplete#enable_camel_case = 1
-let g:deoplete#enable_refresh_always = 1
+" let g:deoplete#enable_refresh_always = 1
 let g:deoplete#max_abbr_width = -1 "100
 let g:deoplete#max_menu_width = -1 "50
 let g:deoplete#auto_complete_delay = 100
@@ -372,8 +372,6 @@ let g:deoplete#file#enable_buffer_path = 1
             " \ 'converter_auto_delimeter',
             " \ 'converter_auto_paren'])
 call deoplete#custom#set('_', 'disabled_syntaxes', ['Comment', 'String'])
-" <BS>: close popup and delete backword char.
-inoremap <expr><BS> deoplete#smart_close_popup()."\<C-h>"
 
 " deoplete-jedi
 let g:deoplete#sources#jedi#enable_cache = 1
@@ -424,6 +422,13 @@ let g:SuperTabContextTextOmniPrecedence = ['&omnifunc', '&completefunc']
 let g:SuperTabContextDiscoverDiscovery = ['&completefunc:<C-p>',
             \'&omnifunc:<C-x><C-o>']
 
+" ale
+let g:airline#extensions#ale#error_symbol = '•'
+let g:airline#extensions#ale#warning_symbol = '•'
+let g:ale_change_sign_column_color = 1
+let g:ale_sign_column_always = 1
+let g:ale_linters = {'python': ['yapf'], 'go': ['gometalinter']}
+
 
 " Autocmds
 augroup MyNvimBasic
@@ -458,8 +463,6 @@ augroup END
 
 augroup MyPythonAutocmds
     autocmd!
-    " Disable deoplete for python (use jedi-vim)
-    " autocmd FileType python let b:deoplete_disable_auto_complete = 1
     autocmd FileType python setlocal
                     \ foldmethod=indent
                     \ tabstop=4
@@ -469,6 +472,7 @@ augroup MyPythonAutocmds
                     \ expandtab
                     \ autoindent
                     \ fileformat=unix
+    autocmd FileType python nnoremap <Localleader>f :call Yapf(" --style pep8")<Cr>
     " autocmd FileType python setlocal completeopt=menuone,longest,preview
     " autocmd FileType python setlocal omnifunc=jedi#completions
     " autocmd FileType python call jedi#configure_call_signatures()
@@ -666,6 +670,8 @@ inoremap <expr> <C-j> pumvisible() ? "\<C-n>" : "\<C-j>"
 inoremap <expr> <C-k> pumvisible() ? "\<C-p>" : "\<C-k>"
 inoremap <expr> <Esc> pumvisible() ? "\<C-e>" : "\<Esc>"
 inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<CR>"
+" <BS>: close popup and delete backword char.
+inoremap <expr><BS> deoplete#smart_close_popup() . "\<C-h>"
 
 " Terminal normal mode
 tnoremap <Esc> <C-\><C-n><Esc><CR>
@@ -727,6 +733,11 @@ nnoremap <Leader>ww :Windows<CR>
 
 " Project
 nnoremap <Leader>pr :ProjectMru -tiebreak=end<CR>
+
+" Lint (ale)
+nnoremap <Leader>lf :ALEFix
+nnoremap <Leader>ls :ALEFixSuggest
+nnoremap <Leader>li :ALEInfo
 
 " Search maps with fzf
 nmap <Leader>? <Plug>(fzf-maps-n)
