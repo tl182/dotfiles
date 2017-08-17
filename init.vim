@@ -29,7 +29,6 @@ if dein#load_state(s:bundle_dir)
     call dein#add('Yggdroot/indentLine')
     call dein#add('dominikduda/vim_current_word')
     call dein#add('mhinz/vim-signify')
-    "call dein#add('Shougo/unite.vim')
     "call dein#add('Shougo/vimfiler.vim')
 
     " Editing
@@ -56,7 +55,8 @@ if dein#load_state(s:bundle_dir)
     call dein#add('zchee/deoplete-jedi')
     " call dein#add('davidhalter/jedi-vim')
     call dein#add('hdima/python-syntax')
-    call dein#add('mindriot101/vim-yapf')
+    " call dein#add('mindriot101/vim-yapf')
+    call dein#add('tell-k/vim-autopep8')
 
     " Go
     call dein#add('zchee/deoplete-go', {'build': 'make'})
@@ -301,50 +301,50 @@ vmap <Leader>\ <Plug>NERDCommenterToggle
 let g:tagbar_autofocus = 1
 let g:tagbar_sort = 0
 let g:tagbar_type_go = {
-\ 'ctagstype' : 'go',
-\ 'kinds'     : [
-    \ 'p:package',
-    \ 'i:imports:1',
-    \ 'c:constants',
-    \ 'v:variables',
-    \ 't:types',
-    \ 'n:interfaces',
-    \ 'w:fields',
-    \ 'e:embedded',
-    \ 'm:methods',
-    \ 'r:constructor',
-    \ 'f:functions'
-\ ],
-\ 'sro' : '.',
-\ 'kind2scope' : {
-    \ 't' : 'ctype',
-    \ 'n' : 'ntype'
-\ },
-\ 'scope2kind' : {
-    \ 'ctype' : 't',
-    \ 'ntype' : 'n'
-\ },
-\ 'ctagsbin'  : 'gotags',
-\ 'ctagsargs' : '-sort -silent'
-\ }
+        \ 'ctagstype' : 'go',
+        \ 'kinds'     : [
+            \ 'p:package',
+            \ 'i:imports:1',
+            \ 'c:constants',
+            \ 'v:variables',
+            \ 't:types',
+            \ 'n:interfaces',
+            \ 'w:fields',
+            \ 'e:embedded',
+            \ 'm:methods',
+            \ 'r:constructor',
+            \ 'f:functions'
+        \ ],
+        \ 'sro' : '.',
+        \ 'kind2scope' : {
+            \ 't' : 'ctype',
+            \ 'n' : 'ntype'
+        \ },
+        \ 'scope2kind' : {
+            \ 'ctype' : 't',
+            \ 'ntype' : 'n'
+        \ },
+        \ 'ctagsbin'  : 'gotags',
+        \ 'ctagsargs' : '-sort -silent'
+        \ }
 
 " FZF
 let $LANG = 'en_US'
 " Customize fzf colors to match your color scheme
 let g:fzf_colors = {
-            \ 'fg':      ['fg', 'Normal'],
-            \ 'bg':      ['bg', 'Normal'],
-            \ 'hl':      ['fg', 'Function'],
-            \ 'fg+':     ['fg', 'String', 'CursorColumn', 'Normal'],
-            \ 'bg+':     ['bg', 'Statusline', 'CursorColumn'],
-            \ 'hl+':     ['fg', 'Type'],
-            \ 'info':    ['fg', 'PreProc'],
-            \ 'prompt':  ['fg', 'Conditional'],
-            \ 'pointer': ['fg', 'Error'],
-            \ 'marker':  ['fg', 'String'],
-            \ 'spinner': ['fg', 'Label'],
-            \ 'header':  ['fg', 'Comment'],
-            \   }
+        \ 'fg':      ['fg', 'Normal'],
+        \ 'bg':      ['bg', 'Normal'],
+        \ 'hl':      ['fg', 'Function'],
+        \ 'fg+':     ['fg', 'String', 'CursorColumn', 'Normal'],
+        \ 'bg+':     ['bg', 'Statusline', 'CursorColumn'],
+        \ 'hl+':     ['fg', 'Type'],
+        \ 'info':    ['fg', 'PreProc'],
+        \ 'prompt':  ['fg', 'Conditional'],
+        \ 'pointer': ['fg', 'Error'],
+        \ 'marker':  ['fg', 'String'],
+        \ 'spinner': ['fg', 'Label'],
+        \ 'header':  ['fg', 'Comment'],
+        \   }
 
 " signify
 let g:signify_vcs_list = ['git']
@@ -423,11 +423,22 @@ let g:SuperTabContextDiscoverDiscovery = ['&completefunc:<C-p>',
             \'&omnifunc:<C-x><C-o>']
 
 " ale
+" let g:airline#extensions#ale#error_symbol = '✗'
+" let g:airline#extensions#ale#warning_symbol = '⚠'
+" let g:ale_sign_column_always = 1
+" let g:ale_lint_on_text_changed = 0
 let g:airline#extensions#ale#error_symbol = '•'
 let g:airline#extensions#ale#warning_symbol = '•'
-let g:ale_change_sign_column_color = 1
-let g:ale_sign_column_always = 1
-let g:ale_linters = {'python': ['yapf'], 'go': ['gometalinter']}
+let g:ale_sign_error = '•'
+let g:ale_sign_warning = '•'
+let g:ale_echo_msg_format = '[%linter%] %s'
+let g:ale_linters = {'python': ['flake8']}
+let g:ale_linter_aliases = {'html': ['html', 'javascript', 'css']}
+let g:ale_set_quickfix = 1
+
+" autopep8
+" let g:autopep8_diff_type = 'vertical'
+let g:autopep8_disable_show_diff = 1
 
 
 " Autocmds
@@ -472,7 +483,8 @@ augroup MyPythonAutocmds
                     \ expandtab
                     \ autoindent
                     \ fileformat=unix
-    autocmd FileType python nnoremap <Localleader>f :call Yapf(" --style pep8")<Cr>
+    " autocmd FileType python nnoremap <Localleader>f :call Yapf(" --style pep8")<Cr>
+    autocmd FileType python nnoremap <Localleader>f :Autopep8<CR>
     " autocmd FileType python setlocal completeopt=menuone,longest,preview
     " autocmd FileType python setlocal omnifunc=jedi#completions
     " autocmd FileType python call jedi#configure_call_signatures()
@@ -492,17 +504,6 @@ augroup MyPythonAutocmds
     " Use :Pyimport <module name> to open module (e.g. os)
 augroup END
 
-" augroup reload_vimrc
-"     autocmd!
-"     " Reload $MYVIMRC on write
-"     autocmd BufWritePost $MYVIMRC source $MYVIMRC
-" augroup END
-
-" augroup nvim_format
-"     autocmd!
-"     autocmd FileType python autocmd BufWritePre <buffer> call StripTrailingWhitespace()
-" augroup end
-
 
 " Functions and commands
 function! ExecuteCommand(command)
@@ -516,16 +517,11 @@ function! ExecuteCommand(command)
     let @/ = _s
     call cursor(l, c)
 endfunction
-
-
 command! -nargs=0 StripTrailingWhitespace call ExecuteCommand("%s/\\s\\+$//e")
-
 
 command! -nargs=0 FilenameToClipboard let @+ = expand("%")
 
-
 command! -nargs=0 ToggleWhitespace set list!
-
 
 function! ToggleNumber()
     if(&relativenumber == 1)
@@ -536,7 +532,6 @@ function! ToggleNumber()
     endif
 endfunc
 command! -nargs=0 ToggleNumber call ToggleNumber()
-
 
 command! -nargs=0 ToggleSpellCheck setlocal spell! spelllang=en_us
 
@@ -570,7 +565,6 @@ command! -nargs=? -range=% Space2Tab call IndentConvert(<line1>,<line2>,0,<q-arg
 command! -nargs=? -range=% Tab2Space call IndentConvert(<line1>,<line2>,1,<q-args>)
 command! -nargs=? -range=% RetabIndent call IndentConvert(<line1>,<line2>,&et,<q-args>)
 
-
 function! <SID>MaximizeToggle()
     if exists('s:maximize_session')
         exec "source " . s:maximize_session
@@ -587,7 +581,6 @@ function! <SID>MaximizeToggle()
     endif
 endfunction
 command! -nargs=0 MaximizeToggle call <SID>MaximizeToggle()
-
 
 function! ToggleColorColumn()
     if &colorcolumn
@@ -735,9 +728,14 @@ nnoremap <Leader>ww :Windows<CR>
 nnoremap <Leader>pr :ProjectMru -tiebreak=end<CR>
 
 " Lint (ale)
-nnoremap <Leader>lf :ALEFix
-nnoremap <Leader>ls :ALEFixSuggest
-nnoremap <Leader>li :ALEInfo
+nnoremap <Leader>lf :ALEFix<CR>
+nnoremap <Leader>ls :ALEFixSuggest<CR>
+nnoremap <Leader>li :ALEInfo<CR>
+nnoremap <Leader>ll :ALELint<CR>
+nnoremap <Leader>lp :ALEPreviousWrap<CR>
+nnoremap <Leader>ln :ALENextWrap<CR>
+nnoremap <Leader>lt :ALEToggle<CR>
+nnoremap <Leader>ld :ALEDetail<CR>
 
 " Search maps with fzf
 nmap <Leader>? <Plug>(fzf-maps-n)
