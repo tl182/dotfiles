@@ -28,17 +28,14 @@ if dein#load_state(s:bundle_dir)
     call dein#add('ryanoasis/vim-devicons')
     call dein#add('Yggdroot/indentLine')
     call dein#add('dominikduda/vim_current_word')
-    call dein#add('mhinz/vim-signify')
     "call dein#add('Shougo/vimfiler.vim')
 
     " Editing
-    call dein#add('jiangmiao/auto-pairs')
     call dein#add('matze/vim-move')
     call dein#add('vim-scripts/DoxygenToolkit.vim')
     call dein#add('scrooloose/nerdcommenter')
     call dein#add('majutsushi/tagbar')
-    call dein#add('sheerun/vim-polyglot')
-    " call dein#add('Shougo/neopairs.vim')
+    call dein#add('jiangmiao/auto-pairs')
 
     " Autocomplition, snippets, linting
     call dein#add('Shougo/context_filetype.vim')
@@ -53,8 +50,8 @@ if dein#load_state(s:bundle_dir)
 
     " Python
     call dein#add('zchee/deoplete-jedi')
-    " call dein#add('davidhalter/jedi-vim')
-    call dein#add('hdima/python-syntax')
+    call dein#add('davidhalter/jedi-vim')
+    " call dein#add('hdima/python-syntax')
     " call dein#add('mindriot101/vim-yapf')
     call dein#add('tell-k/vim-autopep8')
 
@@ -65,6 +62,10 @@ if dein#load_state(s:bundle_dir)
     call dein#add('junegunn/fzf', { 'build': './install --all', 'merged': 0 })
     call dein#add('junegunn/fzf.vim', { 'depends': 'fzf' })
     call dein#add('tweekmonster/fzf-filemru')
+
+    " Git
+    call dein#add('mhinz/vim-signify')
+    call dein#add('tpope/vim-fugitive')
 
     if dein#check_install()
         call dein#install()
@@ -283,7 +284,7 @@ highlight CurrentWordTwins gui=underline cterm=underline
 " Plugin configuration (:help <PluginName>)
 " AutoPairs
 let g:AutoPairsShortcutJump = "<M-f>"
-let g:AutoPairsFlyMode = 1
+let g:AutoPairsFlyMode = 0
 
 " DoxygenToolkit
 " :DoxLic - licence stub
@@ -347,8 +348,9 @@ let g:fzf_colors = {
         \   }
 
 " signify
-let g:signify_vcs_list = ['git']
+let g:signify_disable_by_default = 1
 let g:signify_realtime = 1
+let g:signify_vcs_list = ['git']
 
 " deoplete
 let g:deoplete#enable_at_startup = 1
@@ -387,33 +389,25 @@ imap <C-s> <Plug>(neosnippet_expand_or_jump)
 let g:neosnippet#enable_snipmate_compatibility = 1
 
 " jedi-vim
-" Use ':Pyimport <import name>' to check out import
-" set completeopt=menuone,longest,noinsert,noselect
-" let g:jedi#auto_initialization = 1
-" let g:jedi#auto_vim_configuration = 1
-" let g:jedi#completions_enabled = 1
-" let g:jedi#popup_on_dot = 1
-" let g:jedi#popup_select_first = 0
-" let g:jedi#auto_close_doc = 1
-" let g:jedi#show_call_signatures = 2
-" let g:jedi#show_call_signatures_delay = 10
-" let g:jedi#smart_auto_mappings = 1
-" let g:jedi#use_tag_stack = 1
-" let g:jedi#goto_command = "<Localleader>g"
-" let g:jedi#goto_assignments_command = "<Localleader>a"
-" let g:jedi#documentation_command = "<Localleader>d"
-" let g:jedi#rename_command = "<Localleader>r"
-" let g:jedi#usages_command = "<Localleader>u"
+let g:jedi#auto_initialization = 0
+let g:jedi#auto_vim_configuration = 0
+let g:jedi#completions_enabled = 0
+let g:jedi#smart_auto_mappings = 0
+let g:jedi#use_tag_stack = 1
+let g:jedi#show_call_signatures = 0
+let g:jedi#popup_on_dot = 0
+let g:jedi#popup_select_first = 0
+let g:jedi#auto_close_doc = 1
 
 " python-syntax
-let g:python_highlight_builtins = 1
-let g:python_highlight_exceptions = 1
-let g:python_highlight_string_formatting = 1
-let g:python_highlight_string_format = 1
-let g:python_highlight_string_templates = 1
-let g:python_highlight_doctests = 1
-let g:python_print_as_function = 1
-let g:python_highlight_file_headers_as_comments = 0
+" let g:python_highlight_builtins = 1
+" let g:python_highlight_exceptions = 1
+" let g:python_highlight_string_formatting = 1
+" let g:python_highlight_string_format = 1
+" let g:python_highlight_string_templates = 1
+" let g:python_highlight_doctests = 1
+" let g:python_print_as_function = 1
+" let g:python_highlight_file_headers_as_comments = 0
 
 " supertab
 let g:SuperTabDefaultCompletionType = "context"
@@ -435,9 +429,10 @@ let g:ale_echo_msg_format = '[%linter%] %s'
 let g:ale_linters = {'python': ['flake8']}
 let g:ale_linter_aliases = {'html': ['html', 'javascript', 'css']}
 let g:ale_set_quickfix = 1
+let g:ale_enabled = 0
 
 " autopep8
-" let g:autopep8_diff_type = 'vertical'
+let g:autopep8_diff_type = 'vertical'
 let g:autopep8_disable_show_diff = 1
 
 
@@ -479,29 +474,21 @@ augroup MyPythonAutocmds
                     \ tabstop=4
                     \ shiftwidth=4
                     \ softtabstop=4
-                    \ textwidth=79
+                    " \ textwidth=79
                     \ expandtab
                     \ autoindent
                     \ fileformat=unix
     " autocmd FileType python nnoremap <Localleader>f :call Yapf(" --style pep8")<Cr>
     autocmd FileType python nnoremap <Localleader>f :Autopep8<CR>
-    " autocmd FileType python setlocal completeopt=menuone,longest,preview
-    " autocmd FileType python setlocal omnifunc=jedi#completions
-    " autocmd FileType python call jedi#configure_call_signatures()
 
-    " autocmd FileType python inoremap <silent> <buffer> <C-Space> <C-x><C-o>
-    " autocmd FileType python imap <buffer> <Nul> <C-Space>
-    " autocmd FileType python smap <buffer> <Nul> <C-Space>
-
-    " autocmd FileType python nnoremap <silent> <buffer> <Localleader>g :call jedi#goto()<CR>
-    " autocmd FileType python nnoremap <silent> <buffer> <Localleader>a :call jedi#goto_assignments()<CR>
-    " autocmd FileType python nnoremap <silent> <buffer> <Localleader>d :call jedi#show_documentation()<CR>
-    " autocmd FileType python nnoremap <silent> <buffer> <Localleader>r :call jedi#rename()<CR>
-    " autocmd FileType python nnoremap <silent> <buffer> <Localleader>u :call jedi#usages()<CR>
-    " autocmd FileType python nnoremap <buffer> <Localleader>v2 :call jedi#force_py_version(2)
-    " autocmd FileType python nnoremap <buffer> <Localleader>v3 :call jedi#force_py_version(3)
-
-    " Use :Pyimport <module name> to open module (e.g. os)
+    " Use ':Pyimport <import name>' to check out import
+    autocmd FileType python nnoremap <silent> <buffer> <Localleader>g :call jedi#goto()<CR>
+    autocmd FileType python nnoremap <silent> <buffer> <Localleader>a :call jedi#goto_assignments()<CR>
+    autocmd FileType python nnoremap <silent> <buffer> <Localleader>d :call jedi#show_documentation()<CR>
+    autocmd FileType python nnoremap <silent> <buffer> <Localleader>r :call jedi#rename()<CR>
+    autocmd FileType python nnoremap <silent> <buffer> <Localleader>u :call jedi#usages()<CR>
+    autocmd FileType python nnoremap <buffer> <Localleader>v2 :call jedi#force_py_version(2)
+    autocmd FileType python nnoremap <buffer> <Localleader>v3 :call jedi#force_py_version(3)
 augroup END
 
 
@@ -655,6 +642,8 @@ inoremap <M-n> <C-Right>
 inoremap <C-d> <Esc>ddi
 " Escape insert, create new line, edit it
 inoremap <C-o> <Esc>o
+" Go to end of the line
+inoremap <C-e> <Esc>A
 " Smash escape
 inoremap jk <Esc>
 inoremap kj <Esc>
@@ -682,11 +671,15 @@ nnoremap <Leader>th :VimCurrentWordToggle<CR>
 nnoremap <Leader>tl :ToggleColorColumn<CR>
 let g:AutoPairsShortcutToggle = "<Leader>tp"
 nnoremap <Leader>tt :TagbarToggle<CR>
+nnoremap <Leader>tg :SignifyToggle<CR>
+nnoremap <Leader>te :ALEToggle<CR>
 
 " Edit
 nnoremap <Leader>ed :StripTrailingWhitespace<CR>
 " Search and replace
 nnoremap <Leader>er :%s//g<Left><Left>
+" Undo all
+nnoremap <Leader>eu :edit!<CR>
 " Reindent buffer
 nnoremap <Leader>ei :mzgg=G`z<CR>
 noremap <Leader>et :Tab2Space<CR>
@@ -737,6 +730,20 @@ nnoremap <Leader>ln :ALENextWrap<CR>
 nnoremap <Leader>lt :ALEToggle<CR>
 nnoremap <Leader>ld :ALEDetail<CR>
 
+" Git
+nnoremap <Leader>gv :Gvsplit<CR>
+nnoremap <Leader>gd :Gdiff<CR>
+nnoremap <Leader>gs :Gstatus<CR>
+nnoremap <Leader>gc :Gcommit<CR>
+nnoremap <Leader>gb :Gblame<CR>
+nnoremap <Leader>gm :Gmove<CR>
+nnoremap <Leader>ge :Gdelete<CR>
+nnoremap <Leader>gg :Ggrep<CR>
+nnoremap <Leader>gl :Glog<CR>
+nnoremap <Leader>gr :Gread<CR>
+nnoremap <Leader>gw :Gwrite<CR>
+nnoremap <Leader>go :Gbrowse<CR>
+
 " Search maps with fzf
 nmap <Leader>? <Plug>(fzf-maps-n)
 
@@ -744,4 +751,3 @@ nmap <Leader>? <Plug>(fzf-maps-n)
 " Initial settings
 set nolist
 set nospell
-
