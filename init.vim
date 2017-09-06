@@ -54,6 +54,7 @@ if dein#load_state(s:bundle_dir)
     " call dein#add('hdima/python-syntax')
     " call dein#add('mindriot101/vim-yapf')
     call dein#add('tell-k/vim-autopep8')
+    call dein#add('Vimjas/vim-python-pep8-indent')
 
     " Go
     call dein#add('zchee/deoplete-go', {'build': 'make'})
@@ -399,16 +400,6 @@ let g:jedi#popup_on_dot = 0
 let g:jedi#popup_select_first = 0
 let g:jedi#auto_close_doc = 1
 
-" python-syntax
-" let g:python_highlight_builtins = 1
-" let g:python_highlight_exceptions = 1
-" let g:python_highlight_string_formatting = 1
-" let g:python_highlight_string_format = 1
-" let g:python_highlight_string_templates = 1
-" let g:python_highlight_doctests = 1
-" let g:python_print_as_function = 1
-" let g:python_highlight_file_headers_as_comments = 0
-
 " supertab
 let g:SuperTabDefaultCompletionType = "context"
 let g:SuperTabCompletionContexts = ['s:ContextText', 's:ContextDiscover']
@@ -417,8 +408,6 @@ let g:SuperTabContextDiscoverDiscovery = ['&completefunc:<C-p>',
             \'&omnifunc:<C-x><C-o>']
 
 " ale
-" let g:airline#extensions#ale#error_symbol = '✗'
-" let g:airline#extensions#ale#warning_symbol = '⚠'
 " let g:ale_sign_column_always = 1
 " let g:ale_lint_on_text_changed = 0
 let g:airline#extensions#ale#error_symbol = '•'
