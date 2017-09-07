@@ -37,7 +37,7 @@ if dein#load_state(s:bundle_dir)
     call dein#add('majutsushi/tagbar')
     call dein#add('jiangmiao/auto-pairs')
 
-    " Autocomplition, snippets, linting
+    " Autocomplition, snippets, linting, formatting
     call dein#add('Shougo/context_filetype.vim')
     call dein#add('Shougo/deoplete.nvim')
     call dein#add('Shougo/neco-vim')
@@ -47,13 +47,11 @@ if dein#load_state(s:bundle_dir)
     call dein#add('Shougo/neosnippet-snippets')
     call dein#add('honza/vim-snippets')
     call dein#add('w0rp/ale')
+    call dein#add('sbdchd/neoformat')
 
     " Python
     call dein#add('zchee/deoplete-jedi')
     call dein#add('davidhalter/jedi-vim')
-    " call dein#add('hdima/python-syntax')
-    " call dein#add('mindriot101/vim-yapf')
-    call dein#add('tell-k/vim-autopep8')
     call dein#add('Vimjas/vim-python-pep8-indent')
 
     " Go
@@ -420,9 +418,10 @@ let g:ale_linter_aliases = {'html': ['html', 'javascript', 'css']}
 let g:ale_set_quickfix = 1
 let g:ale_enabled = 0
 
-" autopep8
-let g:autopep8_diff_type = 'vertical'
-let g:autopep8_disable_show_diff = 1
+" neoformat
+let g:neoformat_run_all_formatters = 1
+let g:neoformat_enabled_python = ['autopep8', 'isort']
+nnoremap <Localleader>f :Neoformat<CR>
 
 
 " Autocmds
@@ -467,15 +466,13 @@ augroup MyPythonAutocmds
                     \ expandtab
                     \ autoindent
                     \ fileformat=unix
-    " autocmd FileType python nnoremap <Localleader>f :call Yapf(" --style pep8")<Cr>
-    autocmd FileType python nnoremap <Localleader>f :Autopep8<CR>
 
     " Use ':Pyimport <import name>' to check out import
-    autocmd FileType python nnoremap <silent> <buffer> <Localleader>g :call jedi#goto()<CR>
-    autocmd FileType python nnoremap <silent> <buffer> <Localleader>a :call jedi#goto_assignments()<CR>
-    autocmd FileType python nnoremap <silent> <buffer> <Localleader>d :call jedi#show_documentation()<CR>
-    autocmd FileType python nnoremap <silent> <buffer> <Localleader>r :call jedi#rename()<CR>
-    autocmd FileType python nnoremap <silent> <buffer> <Localleader>u :call jedi#usages()<CR>
+    autocmd FileType python nnoremap <buffer> <Localleader>g :call jedi#goto()<CR>
+    autocmd FileType python nnoremap <buffer> <Localleader>a :call jedi#goto_assignments()<CR>
+    autocmd FileType python nnoremap <buffer> <Localleader>d :call jedi#show_documentation()<CR>
+    autocmd FileType python nnoremap <buffer> <Localleader>r :call jedi#rename()<CR>
+    autocmd FileType python nnoremap <buffer> <Localleader>u :call jedi#usages()<CR>
     autocmd FileType python nnoremap <buffer> <Localleader>v2 :call jedi#force_py_version(2)
     autocmd FileType python nnoremap <buffer> <Localleader>v3 :call jedi#force_py_version(3)
 augroup END
@@ -578,10 +575,8 @@ nnoremap q <Nop>
 " Remap ; to :
 nnoremap ; :
 " Navigate
-noremap <silent> <Up> gk
-noremap <silent> <Down> gj
-noremap <silent> k gk
-noremap <silent> j gj
+noremap k gk
+noremap j gj
 noremap H ^
 noremap L g_
 noremap J 6j
@@ -603,7 +598,7 @@ nnoremap zR zR:echo &foldlevel<CR>
 nnoremap zM zM:echo &foldlevel<CR>
 nnoremap za za:echo &foldlevel<CR>
 " Clear search results
-nnoremap <silent> <Esc> :nohlsearch<CR>
+nnoremap <Esc> :nohlsearch<CR>
 " Select last paste in visual mode
 nnoremap <expr> gb '`[' . strpart(getregtype(), 0, 1) . '`]'
 " Redo
@@ -619,8 +614,8 @@ vnoremap < <gv
 vnoremap > >gv
 
 " Insert mode bindings
-inoremap <silent> <Home> <C-o>g<Home>
-inoremap <silent> <End> <C-o>g<End>
+inoremap <Home> <C-o>g<Home>
+inoremap <End> <C-o>g<End>
 inoremap <M-k> <Up>
 inoremap <M-j> <Down>
 inoremap <M-h> <Left>
@@ -635,7 +630,6 @@ inoremap <C-o> <Esc>o
 inoremap <C-e> <Esc>A
 " Smash escape
 inoremap jk <Esc>
-inoremap kj <Esc>
 " Navigate in popup
 inoremap <expr> <C-j> pumvisible() ? "\<C-n>" : "\<C-j>"
 inoremap <expr> <C-k> pumvisible() ? "\<C-p>" : "\<C-k>"
@@ -658,7 +652,7 @@ nnoremap <Leader>ti :IndentLinesToggle<CR>
 nnoremap <Leader>td :call deoplete#toggle()<CR>
 nnoremap <Leader>th :VimCurrentWordToggle<CR>
 nnoremap <Leader>tl :ToggleColorColumn<CR>
-let g:AutoPairsShortcutToggle = "<Leader>tp"
+let g:AutoPairsShortcutToggle = "<Leader>tb"
 nnoremap <Leader>tt :TagbarToggle<CR>
 nnoremap <Leader>tg :SignifyToggle<CR>
 nnoremap <Leader>te :ALEToggle<CR>
@@ -670,44 +664,44 @@ nnoremap <Leader>er :%s//g<Left><Left>
 " Undo all
 nnoremap <Leader>eu :edit!<CR>
 " Reindent buffer
-nnoremap <Leader>ei :mzgg=G`z<CR>
 noremap <Leader>et :Tab2Space<CR>
 noremap <Leader>eT :Space2Tab<CR>
-noremap <Leader>en :RetabIndent<CR>
+noremap <Leader>ei :RetabIndent<CR>
 
 " File
 " Sudo save
-nnoremap <Leader>fs :update !sudo tee % >/dev/null<CR>
-nnoremap <Leader>fn :FilenameToClipboard<CR>
-nnoremap <Leader>ff :Files<CR>
-nnoremap <Leader>fh :Files ~<CR>
+nnoremap <Leader>f :Files<CR>
+nnoremap <Leader>h :Files ~<CR>
+nnoremap <Leader>F :update !sudo tee % >/dev/null<CR>
 
 " Buffer
-nnoremap <Leader>bp :bprevious<CR>
-nnoremap <Leader>bn :bnext<CR>
+nnoremap <Leader>p :bprevious<CR>
+nnoremap <Leader>n :bnext<CR>
+nnoremap <Leader>b :Buffers<CR>
+nnoremap <Leader>d :bd<CR>
 nnoremap <Leader>bf :bfirst<CR>
 nnoremap <Leader>bl :blast<CR>
-nnoremap <Leader>bd :bd<CR>
 nnoremap <Leader>bh :Startify<CR>
-nnoremap <Leader>bb :Buffers<CR>
 
 " Window
-nnoremap <Leader>ws :split<CR>
-nnoremap <Leader>wv :vsplit<CR>
-nnoremap <Leader>wn :vnew<CR>
-nnoremap <Leader>wr <C-w>r
-nnoremap <Leader>wR <C-w>R
-nnoremap <Leader>wc :close<CR>
-nnoremap <Leader>wo :only<CR>
+nnoremap <Leader>w :Windows<CR>
+" :vnew<CR> - new vertical split
+" <C-w>r - rotate
+" <C-w>R
+" nnoremap <Leader>wo :only<CR>
 nnoremap <Leader>wo :MaximizeToggle<CR>
 nnoremap <Leader>wp <C-w>P
 nnoremap <Leader>wn <C-w>=
 nnoremap <Leader>wu :resize +5<CR>
 nnoremap <Leader>wb :resize -5<CR>
-nnoremap <Leader>ww :Windows<CR>
+
+" Tab
+nnoremap <Leader>te :tabe<CR>
+nnoremap <leader>tn :tabn<CR>
+nnoremap <Leader>tp :tabp<CR>
 
 " Project
-nnoremap <Leader>pr :ProjectMru -tiebreak=end<CR>
+nnoremap <Leader>pr :ProjectMru --tiebreak=end<CR>
 
 " Lint (ale)
 nnoremap <Leader>lf :ALEFix<CR>
