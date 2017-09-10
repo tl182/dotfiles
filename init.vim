@@ -1,6 +1,6 @@
 scriptencoding utf-8
 
-" Explicityly state paths for Pyenv
+" Explicitly state paths for Pyenv
 let g:python_host_prog = '/home/asleap/.pyenv/versions/neovim2/bin/python'
 let g:python3_host_prog = '/home/asleap/.pyenv/versions/neovim3/bin/python'
 
@@ -65,6 +65,9 @@ if dein#load_state(s:bundle_dir)
     " Git
     call dein#add('mhinz/vim-signify')
     call dein#add('tpope/vim-fugitive')
+
+    " Json
+    call dein#add('elzr/vim-json')
 
     if dein#check_install()
         call dein#install()
@@ -422,6 +425,9 @@ let g:ale_enabled = 0
 let g:neoformat_run_all_formatters = 1
 let g:neoformat_enabled_python = ['autopep8', 'isort']
 nnoremap <Localleader>f :Neoformat<CR>
+
+" vim-json
+let g:vim_json_syntax_conceal = 0
 
 
 " Autocmds
