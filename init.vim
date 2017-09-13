@@ -57,6 +57,26 @@ if dein#load_state(s:bundle_dir)
     " Go
     call dein#add('zchee/deoplete-go', {'build': 'make'})
 
+    " JavaScript
+    " https://github.com/othree/yajs.vim
+    " https://github.com/carlitux/deoplete-ternjs
+    " https://github.com/steelsojka/deoplete-flow
+    " https://github.com/wokalski/autocomplete-flow
+
+    " TypeScript
+    " call dein#add('HerringtonDarkholme/yats.vim')
+    " call dein#add('mhartington/nvim-typescript')
+
+    " AngularJS
+    " burnettk/vim-angular
+    " matthewsimo/angular-vim-snippets
+
+    " Json
+    call dein#add('elzr/vim-json')
+
+    " Markdown
+    call dein#add('rhysd/vim-gfm-syntax')
+
     " File management
     call dein#add('junegunn/fzf', { 'build': './install --all', 'merged': 0 })
     call dein#add('junegunn/fzf.vim', { 'depends': 'fzf' })
@@ -65,9 +85,6 @@ if dein#load_state(s:bundle_dir)
     " Git
     call dein#add('mhinz/vim-signify')
     call dein#add('tpope/vim-fugitive')
-
-    " Json
-    call dein#add('elzr/vim-json')
 
     if dein#check_install()
         call dein#install()
@@ -231,17 +248,6 @@ let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#show_splits=1
 let g:airline#extensions#tabline#show_buffers=1
 " let g:airline#extensions#tabline#buffer_idx_mode = 1
-" nmap <leader>1 <Plug>AirlineSelectTab1
-" nmap <leader>2 <Plug>AirlineSelectTab2
-" nmap <leader>3 <Plug>AirlineSelectTab3
-" nmap <leader>4 <Plug>AirlineSelectTab4
-" nmap <leader>5 <Plug>AirlineSelectTab5
-" nmap <leader>6 <Plug>AirlineSelectTab6
-" nmap <leader>7 <Plug>AirlineSelectTab7
-" nmap <leader>8 <Plug>AirlineSelectTab8
-" nmap <leader>9 <Plug>AirlineSelectTab9
-" nmap <leader>- <Plug>AirlineSelectPrevTab
-" nmap <leader>+ <Plug>AirlineSelectNextTab
 let g:airline#extensions#tabline#buffer_nr_show = 1
 let g:airline#extensions#tabline#buffer_nr_format = '%s:'
 " let g:airline#extensions#tabline#fnamemod = ':t'
@@ -464,14 +470,14 @@ augroup END
 augroup MyPythonAutocmds
     autocmd!
     autocmd FileType python setlocal
-                    \ foldmethod=indent
-                    \ tabstop=4
-                    \ shiftwidth=4
-                    \ softtabstop=4
-                    " \ textwidth=79
-                    \ expandtab
-                    \ autoindent
-                    \ fileformat=unix
+        \ foldmethod=indent
+        \ tabstop=4
+        \ shiftwidth=4
+        \ softtabstop=4
+        " \ textwidth=79
+        \ expandtab
+        \ autoindent
+        \ fileformat=unix
 
     " Use ':Pyimport <import name>' to check out import
     autocmd FileType python nnoremap <buffer> <Localleader>g :call jedi#goto()<CR>
@@ -482,6 +488,28 @@ augroup MyPythonAutocmds
     autocmd FileType python nnoremap <buffer> <Localleader>v2 :call jedi#force_py_version(2)
     autocmd FileType python nnoremap <buffer> <Localleader>v3 :call jedi#force_py_version(3)
 augroup END
+
+augroup MyTextFileAutocmds
+    autocmd!
+    autocmd FileType yaml setlocal
+        \ foldmethod=indent
+        \ tabstop=2
+        \ shiftwidth=2
+        \ softtabstop=2
+        \ expandtab
+        \ autoindent
+        \ fileformat=unix
+
+    autocmd FileType json setlocal
+        \ foldmethod=indent
+        \ tabstop=2
+        \ shiftwidth=2
+        \ softtabstop=2
+        \ expandtab
+        \ autoindent
+        \ fileformat=unix
+augroup END
+
 
 
 " Functions and commands
