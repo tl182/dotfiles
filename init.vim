@@ -36,6 +36,7 @@ if dein#load_state(s:bundle_dir)
     call dein#add('scrooloose/nerdcommenter')
     call dein#add('majutsushi/tagbar')
     call dein#add('jiangmiao/auto-pairs')
+    call dein#add('editorconfig/editorconfig-vim')
 
     " Autocomplition, snippets, linting, formatting
     call dein#add('Shougo/context_filetype.vim')
@@ -64,8 +65,8 @@ if dein#load_state(s:bundle_dir)
     " https://github.com/wokalski/autocomplete-flow
 
     " TypeScript
-    " call dein#add('HerringtonDarkholme/yats.vim')
-    " call dein#add('mhartington/nvim-typescript')
+    call dein#add('HerringtonDarkholme/yats.vim')
+    call dein#add('mhartington/nvim-typescript')
 
     " AngularJS
     " burnettk/vim-angular
@@ -372,6 +373,7 @@ let g:deoplete#sources._ = ['around', 'member', 'tag']
 let g:deoplete#sources.vim = ['vim', 'tag', 'neosnippet']
 let g:deoplete#sources.python = ['jedi', 'tag', 'neosnippet']
 let g:deoplete#sources.go = ['go', 'tag', 'neosnippet']
+let g:deoplete#sources.typescript = ['typescript', 'tag', 'neosnippet']
 let g:deoplete#file#enable_buffer_path = 1
 " call deoplete#custom#set('_', 'matchers', ['matcher_head'])
 " call deoplete#custom#set('_', 'sorters', ['sorter_rank'])
@@ -382,6 +384,7 @@ let g:deoplete#file#enable_buffer_path = 1
             " \ 'converter_auto_delimeter',
             " \ 'converter_auto_paren'])
 call deoplete#custom#set('_', 'disabled_syntaxes', ['Comment', 'String'])
+
 
 " deoplete-jedi
 let g:deoplete#sources#jedi#enable_cache = 1
@@ -422,7 +425,7 @@ let g:airline#extensions#ale#warning_symbol = '•'
 let g:ale_sign_error = '•'
 let g:ale_sign_warning = '•'
 let g:ale_echo_msg_format = '[%linter%] %s'
-let g:ale_linters = {'python': ['flake8']}
+let g:ale_linters = {'python': ['flake8'], 'typescript': ['tslint']}
 let g:ale_linter_aliases = {'html': ['html', 'javascript', 'css']}
 let g:ale_set_quickfix = 1
 let g:ale_enabled = 0
@@ -487,6 +490,30 @@ augroup MyPythonAutocmds
     autocmd FileType python nnoremap <buffer> <Localleader>u :call jedi#usages()<CR>
     autocmd FileType python nnoremap <buffer> <Localleader>v2 :call jedi#force_py_version(2)
     autocmd FileType python nnoremap <buffer> <Localleader>v3 :call jedi#force_py_version(3)
+augroup END
+
+augroup MyTypeScriptAutocmds
+autocmd!
+autocmd FileType typescript setlocal
+    \ foldmethod=indent
+    \ tabstop=4
+    \ shiftwidth=4
+    \ softtabstop=4
+    " \ textwidth=79
+    \ expandtab
+    \ autoindent
+    \ fileformat=unix
+
+autocmd FileType typescript nnoremap <buffer> <Localleader>g :TSTypeDef<CR>
+autocmd FileType typescript nnoremap <buffer> <Localleader>a :TSDef<CR>
+autocmd FileType typescript nnoremap <buffer> <Localleader>d :TSDoc<CR>
+autocmd FileType typescript nnoremap <buffer> <Localleader>r :TSRename<CR>
+autocmd FileType typescript nnoremap <buffer> <Localleader>u :TSRefs<CR>
+autocmd FileType typescript nnoremap <buffer> <Localleader>t :TSType<CR>
+autocmd FileType typescript nnoremap <buffer> <Localleader>i :TSImport<CR>
+autocmd FileType typescript nnoremap <buffer> <Localleader>cs :TSStart<CR>
+autocmd FileType typescript nnoremap <buffer> <Localleader>cc :TSStop<CR>
+autocmd FileType typescript nnoremap <buffer> <Localleader>cr :TSRestart<CR>
 augroup END
 
 augroup MyTextFileAutocmds
