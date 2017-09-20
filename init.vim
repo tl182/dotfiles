@@ -28,7 +28,6 @@ if dein#load_state(s:bundle_dir)
     call dein#add('ryanoasis/vim-devicons')
     call dein#add('Yggdroot/indentLine')
     call dein#add('dominikduda/vim_current_word')
-    "call dein#add('Shougo/vimfiler.vim')
 
     " Editing
     call dein#add('matze/vim-move')
@@ -43,7 +42,6 @@ if dein#load_state(s:bundle_dir)
     call dein#add('Shougo/deoplete.nvim')
     call dein#add('Shougo/neco-vim')
     call dein#add('Shougo/echodoc.vim')
-    call dein#add('ervandew/supertab')
     call dein#add('Shougo/neosnippet.vim')
     call dein#add('Shougo/neosnippet-snippets')
     call dein#add('honza/vim-snippets')
@@ -81,7 +79,6 @@ if dein#load_state(s:bundle_dir)
     " File management
     call dein#add('junegunn/fzf', { 'build': './install --all', 'merged': 0 })
     call dein#add('junegunn/fzf.vim', { 'depends': 'fzf' })
-    call dein#add('tweekmonster/fzf-filemru')
 
     " Git
     call dein#add('mhinz/vim-signify')
@@ -99,8 +96,8 @@ endif
 
 " Settings
 " Timeout settings
-set timeoutlen=300                  " Mapping timeout
-set ttimeoutlen=50                  " Keycode timeout
+set timeoutlen=300
+set ttimeoutlen=50
 
 " Map leader keys
 let maplocalleader=','
@@ -155,7 +152,7 @@ set shiftwidth=4                    " >> indents by 4 spaces
 set shiftround                      " >> indents to the next multiple of shiftwidth
 
 
-" Set listchars and show them
+" Set listchars
 set list
 if has('multi_byte') && &encoding ==# 'utf-8'
     let &listchars = 'tab:→ ,eol:↵,trail:~,extends:↷,precedes:↶,nbsp:±'
@@ -179,9 +176,9 @@ set nobackup
 set swapfile
 
 
-" Basic autocompletion
+" Autocompletion and command completion
 set completeopt=menuone,longest
-set wildmenu                        " Command line completion
+set wildmenu
 set wildmode=list:full
 set wildignore+=*~,*.o,core.*,*.exe,.git/,.hg/,.svn/,.DS_Store,*.pyc
 set wildignore+=*.swp,*.swo,*.class,*.tags,tags,tags-*,cscope.*,*.taghl
@@ -190,7 +187,7 @@ set wildignorecase
 
 
 " Fold options
-set foldenable                      " Enable folds by default
+set foldenable                      " Enable folds
 set foldmethod=syntax               " Fold via syntax of files
 set foldlevelstart=99               " Open all folds by default
 
@@ -208,8 +205,7 @@ set modeline                        " Enable modeline
 set nojoinspaces                    " Prevent inserting 2 spaces on a join (J)
 set nostartofline                   " Jump to first non-blank character
 set number                          " Line numbers
-set numberwidth=1                   " Minimal width
-" set numberwidth=5
+set numberwidth=1                   " Minimal line number width
 set relativenumber                  " Relative numbering
 set report=0                        " Always report changed lines
 set showfulltag                     " Show tag and info in insert-mode completion
@@ -223,7 +219,7 @@ set splitright                      " Split right of the current window
 set synmaxcol=200                   " Highlight 200 columns (default 3000, 0 - no limit)
 set textwidth=0                     " Hard-wrap long lines as you type them
 set title                           " Set terminal's title
-set whichwrap+=<,>,h,l              " Allow backspace an cursor keys to cross line boundaries
+set whichwrap+=<,>,h,l              " Allow backspace and cursor keys to cross line boundaries
 set wrap                            " Enable word wrap
 set wrapscan                        " Searches wrap around end of file
 
@@ -240,7 +236,6 @@ let g:gruvbox_impoved_strings=1
 let g:gruvbox_improved_warnings=1
 set background=dark
 colorscheme gruvbox
-" highlight LineNr ctermbg=brown guibg=#1d2021
 " Airline
 set noshowmode
 let g:airline_theme = 'gruvbox'
@@ -256,23 +251,22 @@ let g:airline#extensions#tabline#fnamecollapse = 1
 let g:airline#extensions#tabline#fnametruncate = 0
 let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
 let g:airline#extensions#default#section_truncate_width = {
-            \ 'b': 79,
-            \ 'x': 60,
-            \ 'y': 88,
-            \ 'z': 45,
-            \ 'warning': 80,
-            \ 'error': 80,
-            \ }
+    \ 'b': 79,
+    \ 'x': 60,
+    \ 'y': 88,
+    \ 'z': 45,
+    \ 'warning': 80,
+    \ 'error': 80,
+    \ }
 let g:airline#extensions#default#layout = [
-            \ [ 'a', 'error', 'warning', 'b', 'c' ],
-            \ [ 'x', 'y', 'z' ]
-            \ ]
+    \ [ 'a', 'error', 'warning', 'b', 'c' ],
+    \ [ 'x', 'y', 'z' ]
+    \ ]
 " Webdevicons
-let g:webdevicons_enable_vimfiler=1
 let g:webdevicons_enable_airline_tabline=1
 let g:webdevicons_enable_airline_statusline=1
 let entry_format = "'   ['. index .']'. repeat(' ', (3 - strlen(index)))"
-if exists('*WebDevIconsGetFileTypeSymbol')  " support for vim-devicons
+if exists('*WebDevIconsGetFileTypeSymbol')
     let entry_format .= ". WebDevIconsGetFileTypeSymbol(entry_path) .' '.  entry_path"
 else
     let entry_format .= '. entry_path'
@@ -285,6 +279,7 @@ let g:indentLine_char='│'
 " Current word
 let g:vim_current_word#highlight_twins = 1
 let g:vim_current_word#highlight_current_word = 1
+" vim_current_word
 " hi CurrentWord ctermfg=XXX ctermbg=XXX cterm=underline,bold,italic
 highlight CurrentWord gui=underline cterm=underline
 highlight CurrentWordTwins gui=underline cterm=underline
@@ -311,32 +306,50 @@ vmap <Leader>\ <Plug>NERDCommenterToggle
 let g:tagbar_autofocus = 1
 let g:tagbar_sort = 0
 let g:tagbar_type_go = {
-        \ 'ctagstype' : 'go',
-        \ 'kinds'     : [
-            \ 'p:package',
-            \ 'i:imports:1',
-            \ 'c:constants',
-            \ 'v:variables',
-            \ 't:types',
-            \ 'n:interfaces',
-            \ 'w:fields',
-            \ 'e:embedded',
-            \ 'm:methods',
-            \ 'r:constructor',
-            \ 'f:functions'
-        \ ],
-        \ 'sro' : '.',
-        \ 'kind2scope' : {
-            \ 't' : 'ctype',
-            \ 'n' : 'ntype'
-        \ },
-        \ 'scope2kind' : {
-            \ 'ctype' : 't',
-            \ 'ntype' : 'n'
-        \ },
-        \ 'ctagsbin'  : 'gotags',
-        \ 'ctagsargs' : '-sort -silent'
-        \ }
+    \ 'ctagstype' : 'go',
+    \ 'kinds'     : [
+        \ 'p:package',
+        \ 'i:imports:1',
+        \ 'c:constants',
+        \ 'v:variables',
+        \ 't:types',
+        \ 'n:interfaces',
+        \ 'w:fields',
+        \ 'e:embedded',
+        \ 'm:methods',
+        \ 'r:constructor',
+        \ 'f:functions'
+    \ ],
+    \ 'sro' : '.',
+    \ 'kind2scope' : {
+        \ 't' : 'ctype',
+        \ 'n' : 'ntype'
+    \ },
+    \ 'scope2kind' : {
+        \ 'ctype' : 't',
+        \ 'ntype' : 'n'
+    \ },
+    \ 'ctagsbin'  : 'gotags',
+    \ 'ctagsargs' : '-sort -silent'
+    \ }
+let g:tagbar_type_typescript = {
+    \ 'ctagsbin' : 'tstags',
+    \ 'ctagsargs' : '-f-',
+    \ 'kinds': [
+        \ 'e:enums:0:1',
+        \ 'f:function:0:1',
+        \ 't:typealias:0:1',
+        \ 'M:Module:0:1',
+        \ 'I:import:0:1',
+        \ 'i:interface:0:1',
+        \ 'C:class:0:1',
+        \ 'm:method:0:1',
+        \ 'p:property:0:1',
+        \ 'v:variable:0:1',
+        \ 'c:const:0:1',
+    \ ],
+    \ 'sort' : 0
+    \ }
 
 " FZF
 let $LANG = 'en_US'
@@ -410,13 +423,6 @@ let g:jedi#popup_on_dot = 0
 let g:jedi#popup_select_first = 0
 let g:jedi#auto_close_doc = 1
 
-" supertab
-let g:SuperTabDefaultCompletionType = "context"
-let g:SuperTabCompletionContexts = ['s:ContextText', 's:ContextDiscover']
-let g:SuperTabContextTextOmniPrecedence = ['&omnifunc', '&completefunc']
-let g:SuperTabContextDiscoverDiscovery = ['&completefunc:<C-p>',
-            \'&omnifunc:<C-x><C-o>']
-
 " ale
 " let g:ale_sign_column_always = 1
 " let g:ale_lint_on_text_changed = 0
@@ -442,23 +448,19 @@ let g:vim_json_syntax_conceal = 0
 " Autocmds
 augroup MyNvimBasic
     autocmd!
-
     " Speed up Syntax Highlighting
     " autocmd BufWinEnter,Syntax * syn sync minlines=500 maxlines=500
     autocmd BufEnter * :syntax sync maxlines=200
-
     " Go back to previous position of cursor if any
     autocmd BufReadPost *
         \ if line("'\"") > 0 && line("'\"") <= line("$") |
         \   exe 'normal! g`"zvzz' |
         \ endif
-
     " No syntax for big files
     autocmd BufReadPre *
         \ if getfsize(expand("%")) > 10000000 |
         \   syntax off |
         \ endif
-
     " Close quickfix and locationlist windows
     function! MyLastWindow()
         if &buftype ==# 'quickfix' || &buftype ==# 'locationlist'
@@ -481,7 +483,6 @@ augroup MyPythonAutocmds
         \ expandtab
         \ autoindent
         \ fileformat=unix
-
     " Use ':Pyimport <import name>' to check out import
     autocmd FileType python nnoremap <buffer> <Localleader>g :call jedi#goto()<CR>
     autocmd FileType python nnoremap <buffer> <Localleader>a :call jedi#goto_assignments()<CR>
@@ -493,27 +494,26 @@ augroup MyPythonAutocmds
 augroup END
 
 augroup MyTypeScriptAutocmds
-autocmd!
-autocmd FileType typescript setlocal
-    \ foldmethod=indent
-    \ tabstop=4
-    \ shiftwidth=4
-    \ softtabstop=4
-    " \ textwidth=79
-    \ expandtab
-    \ autoindent
-    \ fileformat=unix
-
-autocmd FileType typescript nnoremap <buffer> <Localleader>g :TSTypeDef<CR>
-autocmd FileType typescript nnoremap <buffer> <Localleader>a :TSDef<CR>
-autocmd FileType typescript nnoremap <buffer> <Localleader>d :TSDoc<CR>
-autocmd FileType typescript nnoremap <buffer> <Localleader>r :TSRename<CR>
-autocmd FileType typescript nnoremap <buffer> <Localleader>u :TSRefs<CR>
-autocmd FileType typescript nnoremap <buffer> <Localleader>t :TSType<CR>
-autocmd FileType typescript nnoremap <buffer> <Localleader>i :TSImport<CR>
-autocmd FileType typescript nnoremap <buffer> <Localleader>cs :TSStart<CR>
-autocmd FileType typescript nnoremap <buffer> <Localleader>cc :TSStop<CR>
-autocmd FileType typescript nnoremap <buffer> <Localleader>cr :TSRestart<CR>
+    autocmd!
+    autocmd FileType typescript setlocal
+        \ foldmethod=indent
+        \ tabstop=4
+        \ shiftwidth=4
+        \ softtabstop=4
+        " \ textwidth=79
+        \ expandtab
+        \ autoindent
+        \ fileformat=unix
+    autocmd FileType typescript nnoremap <buffer> <Localleader>g :TSTypeDef<CR>
+    autocmd FileType typescript nnoremap <buffer> <Localleader>a :TSDef<CR>
+    autocmd FileType typescript nnoremap <buffer> <Localleader>d :TSDoc<CR>
+    autocmd FileType typescript nnoremap <buffer> <Localleader>r :TSRename<CR>
+    autocmd FileType typescript nnoremap <buffer> <Localleader>u :TSRefs<CR>
+    autocmd FileType typescript nnoremap <buffer> <Localleader>t :TSType<CR>
+    autocmd FileType typescript nnoremap <buffer> <Localleader>i :TSImport<CR>
+    autocmd FileType typescript nnoremap <buffer> <Localleader>cs :TSStart<CR>
+    autocmd FileType typescript nnoremap <buffer> <Localleader>cc :TSStop<CR>
+    autocmd FileType typescript nnoremap <buffer> <Localleader>cr :TSRestart<CR>
 augroup END
 
 augroup MyTextFileAutocmds
@@ -526,7 +526,6 @@ augroup MyTextFileAutocmds
         \ expandtab
         \ autoindent
         \ fileformat=unix
-
     autocmd FileType json setlocal
         \ foldmethod=indent
         \ tabstop=2
@@ -538,24 +537,18 @@ augroup MyTextFileAutocmds
 augroup END
 
 
-
 " Functions and commands
 function! ExecuteCommand(command)
-    " prepare: save last search and position
     let _s = @/
     let l = line(".")
     let c = col(".")
-    " exec command
     execute a:command
-    " clean up and restore
     let @/ = _s
     call cursor(l, c)
 endfunction
 command! -nargs=0 StripTrailingWhitespace call ExecuteCommand("%s/\\s\\+$//e")
 
 command! -nargs=0 FilenameToClipboard let @+ = expand("%")
-
-command! -nargs=0 ToggleWhitespace set list!
 
 function! ToggleNumber()
     if(&relativenumber == 1)
@@ -565,9 +558,6 @@ function! ToggleNumber()
         set relativenumber
     endif
 endfunc
-command! -nargs=0 ToggleNumber call ToggleNumber()
-
-command! -nargs=0 ToggleSpellCheck setlocal spell! spelllang=en_us
 
 
 " Return indent (all whitespace at start of a line), converted from
@@ -640,8 +630,8 @@ noremap k gk
 noremap j gj
 noremap H ^
 noremap L g_
-noremap J 6j
-noremap K 6k
+noremap J 5j
+noremap K 5k
 nnoremap <C-h> <C-w><C-h>
 nnoremap <C-j> <C-w><C-j>
 nnoremap <C-k> <C-w><C-k>
@@ -696,7 +686,6 @@ inoremap <expr> <C-j> pumvisible() ? "\<C-n>" : "\<C-j>"
 inoremap <expr> <C-k> pumvisible() ? "\<C-p>" : "\<C-k>"
 inoremap <expr> <Esc> pumvisible() ? "\<C-e>" : "\<Esc>"
 inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<CR>"
-" <BS>: close popup and delete backword char.
 inoremap <expr><BS> deoplete#smart_close_popup() . "\<C-h>"
 
 " Terminal normal mode
@@ -704,19 +693,17 @@ tnoremap <Esc> <C-\><C-n><Esc><CR>
 
 " Space-like bindings
 " Toggle
-nnoremap <Leader>tw :ToggleWhitespace<CR>
-nnoremap <Leader>tn :ToggleNumber<CR>
-nnoremap <Leader>ts :ToggleSpellCheck<CR>
+nnoremap <Leader>tw :set list!<CR>
+nnoremap <Leader>tc :call ToggleNumber()<CR>
+nnoremap <Leader>ts :setlocal spell! spelllang=en_us<CR>
 nnoremap <Leader>tk :terminal<CR>
-nnoremap <Leader>tc :nohlsearch<CR>
 nnoremap <Leader>ti :IndentLinesToggle<CR>
 nnoremap <Leader>td :call deoplete#toggle()<CR>
 nnoremap <Leader>th :VimCurrentWordToggle<CR>
 nnoremap <Leader>tl :ToggleColorColumn<CR>
-let g:AutoPairsShortcutToggle = "<Leader>tb"
+let g:AutoPairsShortcutToggle = "<Leader>ta"
 nnoremap <Leader>tt :TagbarToggle<CR>
 nnoremap <Leader>tg :SignifyToggle<CR>
-nnoremap <Leader>te :ALEToggle<CR>
 
 " Edit
 nnoremap <Leader>ed :StripTrailingWhitespace<CR>
@@ -724,16 +711,13 @@ nnoremap <Leader>ed :StripTrailingWhitespace<CR>
 nnoremap <Leader>er :%s//g<Left><Left>
 " Undo all
 nnoremap <Leader>eu :edit!<CR>
-" Reindent buffer
-noremap <Leader>et :Tab2Space<CR>
-noremap <Leader>eT :Space2Tab<CR>
-noremap <Leader>ei :RetabIndent<CR>
 
 " File
 " Sudo save
 nnoremap <Leader>f :Files<CR>
 nnoremap <Leader>h :Files ~<CR>
-nnoremap <Leader>F :update !sudo tee % >/dev/null<CR>
+" nnoremap <Leader>F :update !sudo tee % >/dev/null<CR>
+nnoremap <Leader>F :w !sudo tee %<CR>
 
 " Buffer
 nnoremap <Leader>p :bprevious<CR>
@@ -760,9 +744,6 @@ nnoremap <Leader>wb :resize -5<CR>
 nnoremap <Leader>te :tabe<CR>
 nnoremap <leader>tn :tabn<CR>
 nnoremap <Leader>tp :tabp<CR>
-
-" Project
-nnoremap <Leader>pr :ProjectMru --tiebreak=end<CR>
 
 " Lint (ale)
 nnoremap <Leader>lf :ALEFix<CR>
