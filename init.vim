@@ -57,18 +57,11 @@ if dein#load_state(s:bundle_dir)
     call dein#add('zchee/deoplete-go', {'build': 'make'})
 
     " JavaScript
-    " https://github.com/othree/yajs.vim
-    " https://github.com/carlitux/deoplete-ternjs
-    " https://github.com/steelsojka/deoplete-flow
-    " https://github.com/wokalski/autocomplete-flow
+    call dein#add('othree/yajs.vim')
 
     " TypeScript
     call dein#add('HerringtonDarkholme/yats.vim')
     call dein#add('mhartington/nvim-typescript')
-
-    " AngularJS
-    " burnettk/vim-angular
-    " matthewsimo/angular-vim-snippets
 
     " Json
     call dein#add('elzr/vim-json')
@@ -114,10 +107,10 @@ set backspace=indent,eol,start
 set backupdir=.,~/.local/share/nvim/backup
 set belloff=all
 set complete-=i
-set directory=~/.local/share/nvim/swap//
+set directory=~/.local/share/nvim/swap
 set display=lastline
 set formatoptions=tcqj
-set history=10000
+set history=1000
 set hlsearch
 set incsearch
 set langnoremap
@@ -216,7 +209,7 @@ set smartcase                       " Smart case search if there is upper
 set spell                           " Enable spell check
 set splitbelow                      " Split below current window
 set splitright                      " Split right of the current window
-set synmaxcol=200                   " Highlight 200 columns (default 3000, 0 - no limit)
+set synmaxcol=128                   " Highlight columns (default 3000, 0 - no limit)
 set textwidth=0                     " Hard-wrap long lines as you type them
 set title                           " Set terminal's title
 set whichwrap+=<,>,h,l              " Allow backspace and cursor keys to cross line boundaries
@@ -286,6 +279,13 @@ highlight CurrentWordTwins gui=underline cterm=underline
 
 
 " Plugin configuration (:help <PluginName>)
+" netrw
+let g:netrw_liststyle = 3
+let g:netrw_browse_split = 4
+let g:netrw_winsize = -30
+let g:netrw_list_hide = &wildignore
+let g:netrw_sort_sequence = '[\/]$,*'
+
 " AutoPairs
 let g:AutoPairsShortcutJump = "<M-f>"
 let g:AutoPairsFlyMode = 0
@@ -359,9 +359,8 @@ let g:signify_vcs_list = ['git']
 " deoplete
 let g:deoplete#enable_at_startup = 1
 let g:deoplete#enable_camel_case = 1
-" let g:deoplete#enable_refresh_always = 1
-let g:deoplete#max_abbr_width = -1 "100
-let g:deoplete#max_menu_width = -1 "50
+let g:deoplete#max_abbr_width = 100 " -1
+let g:deoplete#max_menu_width = 50 " -1
 let g:deoplete#auto_complete_delay = 100
 let g:deoplete#sources = {}
 let g:deoplete#sources._ = ['around', 'member', 'tag']
@@ -369,7 +368,7 @@ let g:deoplete#sources.vim = ['vim', 'tag', 'neosnippet']
 let g:deoplete#sources.python = ['jedi', 'tag', 'neosnippet']
 let g:deoplete#sources.go = ['go', 'tag', 'neosnippet']
 let g:deoplete#sources.typescript = ['typescript', 'tag', 'neosnippet']
-let g:deoplete#file#enable_buffer_path = 1
+" let g:deoplete#file#enable_buffer_path = 1
 " call deoplete#custom#set('_', 'matchers', ['matcher_head'])
 " call deoplete#custom#set('_', 'sorters', ['sorter_rank'])
 " call deoplete#custom#set('_', 'converters', [
@@ -379,7 +378,6 @@ let g:deoplete#file#enable_buffer_path = 1
             " \ 'converter_auto_delimeter',
             " \ 'converter_auto_paren'])
 call deoplete#custom#set('_', 'disabled_syntaxes', ['Comment', 'String'])
-
 
 " deoplete-jedi
 let g:deoplete#sources#jedi#enable_cache = 1
@@ -421,6 +419,7 @@ let g:ale_enabled = 0
 " neoformat
 let g:neoformat_run_all_formatters = 1
 let g:neoformat_enabled_python = ['autopep8', 'isort']
+let g:neoformat_enabled_typescript = ['prettier']
 nnoremap <Localleader>f :Neoformat<CR>
 
 " vim-json
@@ -431,9 +430,10 @@ let g:vim_json_syntax_conceal = 0
 augroup MyNvimBasic
     autocmd!
     " Speed up Syntax Highlighting
-    " autocmd BufWinEnter,Syntax * syn sync minlines=500 maxlines=500
-    autocmd BufEnter * :syntax sync maxlines=200
-    " Go back to previous position of cursor if any
+    " :syntime on to start profile, :syntime report then
+    autocmd BufEnter * :syntax sync minlines=128
+    autocmd BufEnter * :syntax sync maxlines=256
+    " Go back to previous position of cursor
     autocmd BufReadPost *
         \ if line("'\"") > 0 && line("'\"") <= line("$") |
         \   exe 'normal! g`"zvzz' |
@@ -676,12 +676,13 @@ tnoremap <Esc> <C-\><C-n><Esc><CR>
 " Space-like bindings
 " Toggle
 nnoremap <Leader>tw :set list!<CR>
-nnoremap <Leader>tc :call ToggleNumber()<CR>
+nnoremap <Leader>tn :call ToggleNumber()<CR>
 nnoremap <Leader>ts :setlocal spell! spelllang=en_us<CR>
 nnoremap <Leader>tk :terminal<CR>
 nnoremap <Leader>ti :IndentLinesToggle<CR>
 nnoremap <Leader>td :call deoplete#toggle()<CR>
 nnoremap <Leader>th :VimCurrentWordToggle<CR>
+nnoremap <Leader>tc :set cursorline!<CR>
 nnoremap <Leader>tl :ToggleColorColumn<CR>
 let g:AutoPairsShortcutToggle = "<Leader>ta"
 nnoremap <Leader>tt :TagbarToggle<CR>
@@ -700,6 +701,7 @@ nnoremap <Leader>f :Files<CR>
 nnoremap <Leader>h :Files ~<CR>
 " nnoremap <Leader>F :update !sudo tee % >/dev/null<CR>
 nnoremap <Leader>F :w !sudo tee %<CR>
+nnoremap <Leader>m :Vexplore<CR>
 
 " Buffer
 nnoremap <Leader>p :bprevious<CR>
@@ -713,19 +715,15 @@ nnoremap <Leader>bh :Startify<CR>
 " Window
 nnoremap <Leader>w :Windows<CR>
 " :vnew<CR> - new vertical split
-" <C-w>r - rotate
-" <C-w>R
+" <C-w>r/R - rotate
 " nnoremap <Leader>wo :only<CR>
 nnoremap <Leader>wo :MaximizeToggle<CR>
-nnoremap <Leader>wp <C-w>P
-nnoremap <Leader>wn <C-w>=
 nnoremap <Leader>wu :resize +5<CR>
 nnoremap <Leader>wb :resize -5<CR>
-
 " Tab
-nnoremap <Leader>te :tabe<CR>
-nnoremap <leader>tn :tabn<CR>
-nnoremap <Leader>tp :tabp<CR>
+nnoremap <Leader>we :tabe<CR>
+nnoremap <leader>wn :tabn<CR>
+nnoremap <Leader>wp :tabp<CR>
 
 " Lint (ale)
 nnoremap <Leader>lf :ALEFix<CR>
