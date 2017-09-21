@@ -36,6 +36,7 @@ if dein#load_state(s:bundle_dir)
     call dein#add('majutsushi/tagbar')
     call dein#add('jiangmiao/auto-pairs')
     call dein#add('editorconfig/editorconfig-vim')
+    call dein#add('mbbill/undotree')
 
     " Autocomplition, snippets, linting, formatting
     call dein#add('Shougo/context_filetype.vim')
@@ -687,6 +688,7 @@ nnoremap <Leader>tl :ToggleColorColumn<CR>
 let g:AutoPairsShortcutToggle = "<Leader>ta"
 nnoremap <Leader>tt :TagbarToggle<CR>
 nnoremap <Leader>tg :SignifyToggle<CR>
+nnoremap <leader>tu :UndotreeToggle<CR>
 
 " Edit
 nnoremap <Leader>ed :StripTrailingWhitespace<CR>
