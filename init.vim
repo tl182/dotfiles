@@ -75,8 +75,8 @@ if dein#load_state(s:bundle_dir)
     call dein#add('junegunn/fzf.vim', { 'depends': 'fzf' })
 
     " Git
-    call dein#add('mhinz/vim-signify')
     call dein#add('tpope/vim-fugitive')
+    call dein#add('jreybert/vimagit')
 
     if dein#check_install()
         call dein#install()
@@ -351,11 +351,6 @@ let g:fzf_colors = {
         \ 'spinner': ['fg', 'Label'],
         \ 'header':  ['fg', 'Comment'],
         \   }
-
-" signify
-let g:signify_disable_by_default = 1
-let g:signify_realtime = 1
-let g:signify_vcs_list = ['git']
 
 " deoplete
 let g:deoplete#enable_at_startup = 1
@@ -738,18 +733,12 @@ nnoremap <Leader>lt :ALEToggle<CR>
 nnoremap <Leader>ld :ALEDetail<CR>
 
 " Git
-nnoremap <Leader>gv :Gvsplit<CR>
+nnoremap <Leader>gm :Magit<CR>
 nnoremap <Leader>gd :Gdiff<CR>
 nnoremap <Leader>gs :Gstatus<CR>
-nnoremap <Leader>gc :Gcommit<CR>
 nnoremap <Leader>gb :Gblame<CR>
-nnoremap <Leader>gm :Gmove<CR>
-nnoremap <Leader>ge :Gdelete<CR>
 nnoremap <Leader>gg :Ggrep<CR>
 nnoremap <Leader>gl :Glog<CR>
-nnoremap <Leader>gr :Gread<CR>
-nnoremap <Leader>gw :Gwrite<CR>
-nnoremap <Leader>go :Gbrowse<CR>
 
 " Search maps with fzf
 nmap <Leader>? <Plug>(fzf-maps-n)
