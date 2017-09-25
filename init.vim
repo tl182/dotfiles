@@ -37,6 +37,7 @@ if dein#load_state(s:bundle_dir)
     call dein#add('jiangmiao/auto-pairs')
     call dein#add('editorconfig/editorconfig-vim')
     call dein#add('mbbill/undotree')
+    call dein#add('wellle/targets.vim')
 
     " Autocomplition, snippets, linting, formatting
     call dein#add('Shougo/context_filetype.vim')
@@ -90,8 +91,8 @@ endif
 
 " Settings
 " Timeout settings
-set timeoutlen=300
-set ttimeoutlen=50
+set timeoutlen=500
+set ttimeoutlen=100
 
 " Map leader keys
 let maplocalleader=','
@@ -682,7 +683,6 @@ nnoremap <Leader>tc :set cursorline!<CR>
 nnoremap <Leader>tl :ToggleColorColumn<CR>
 let g:AutoPairsShortcutToggle = "<Leader>ta"
 nnoremap <Leader>tt :TagbarToggle<CR>
-nnoremap <Leader>tg :SignifyToggle<CR>
 nnoremap <leader>tu :UndotreeToggle<CR>
 
 " Edit
@@ -693,9 +693,9 @@ nnoremap <Leader>er :%s//g<Left><Left>
 nnoremap <Leader>eu :edit!<CR>
 
 " File
-" Sudo save
 nnoremap <Leader>f :Files<CR>
 nnoremap <Leader>h :Files ~<CR>
+" Sudo save
 " nnoremap <Leader>F :update !sudo tee % >/dev/null<CR>
 nnoremap <Leader>F :w !sudo tee %<CR>
 nnoremap <Leader>m :Vexplore<CR>
