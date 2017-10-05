@@ -74,6 +74,9 @@ if dein#load_state(s:bundle_dir)
     " File management
     call dein#add('junegunn/fzf', { 'build': './install --all', 'merged': 0 })
     call dein#add('junegunn/fzf.vim', { 'depends': 'fzf' })
+    " call dein#add('francoiscabrol/ranger.vim')
+    " call dein#add('rbgrouleff/bclose.vim')
+    call dein#add('cocopon/vaffle.vim')
 
     " Git
     call dein#add('tpope/vim-fugitive')
@@ -422,6 +425,9 @@ nnoremap <Localleader>f :Neoformat<CR>
 " vim-json
 let g:vim_json_syntax_conceal = 0
 
+" ranger.vim
+" let g:ranger_map_keys = 0
+
 
 " Autocmds
 augroup MyNvimBasic
@@ -698,7 +704,9 @@ nnoremap <Leader>h :Files ~<CR>
 " Sudo save
 " nnoremap <Leader>F :update !sudo tee % >/dev/null<CR>
 nnoremap <Leader>F :w !sudo tee %<CR>
-nnoremap <Leader>m :Vexplore<CR>
+" nnoremap <Leader>m :Vexplore<CR>
+" nnoremap <Leader>m :Ranger<CR>
+nnoremap <Leader>m :Vaffle<CR>
 
 " Buffer
 nnoremap <Leader>p :bprevious<CR>
@@ -739,6 +747,7 @@ nnoremap <Leader>gs :Gstatus<CR>
 nnoremap <Leader>gb :Gblame<CR>
 nnoremap <Leader>gg :Ggrep<CR>
 nnoremap <Leader>gl :Glog<CR>
+nnoremap <Leader>gr :Gmerge<CR>
 
 " Search maps with fzf
 nmap <Leader>? <Plug>(fzf-maps-n)
