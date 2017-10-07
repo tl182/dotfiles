@@ -38,6 +38,7 @@ if dein#load_state(s:bundle_dir)
     call dein#add('editorconfig/editorconfig-vim')
     call dein#add('mbbill/undotree')
     call dein#add('wellle/targets.vim')
+    call dein#add('eugen0329/vim-esearch')
 
     " Autocomplition, snippets, linting, formatting
     call dein#add('Shougo/context_filetype.vim')
@@ -427,6 +428,19 @@ let g:vim_json_syntax_conceal = 0
 
 " ranger.vim
 " let g:ranger_map_keys = 0
+
+" esearch
+let g:esearch = {
+    \ 'adapter':    'ag',
+    \ 'backend':    'nvim',
+    \ 'out':        'win',
+    \ 'batch_size': 1000,
+    \ 'use':        [],
+    \ }
+" Start esearch prompt autofilled with one of g:esearch.use initial patterns
+call esearch#map('<Leader>es', 'esearch')
+" Start esearch autofilled with a word under the cursor
+call esearch#map('<Leader>ew', 'esearch-word-under-cursor')
 
 
 " Autocmds
