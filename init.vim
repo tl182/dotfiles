@@ -39,6 +39,7 @@ if dein#load_state(s:bundle_dir)
     call dein#add('mbbill/undotree')
     call dein#add('wellle/targets.vim')
     call dein#add('eugen0329/vim-esearch')
+    call dein#add('rhysd/clever-f.vim')
 
     " Autocomplition, snippets, linting, formatting
     call dein#add('Shougo/context_filetype.vim')
@@ -75,8 +76,6 @@ if dein#load_state(s:bundle_dir)
     " File management
     call dein#add('junegunn/fzf', { 'build': './install --all', 'merged': 0 })
     call dein#add('junegunn/fzf.vim', { 'depends': 'fzf' })
-    " call dein#add('francoiscabrol/ranger.vim')
-    " call dein#add('rbgrouleff/bclose.vim')
     call dein#add('cocopon/vaffle.vim')
 
     " Git
@@ -426,9 +425,6 @@ nnoremap <Localleader>f :Neoformat<CR>
 " vim-json
 let g:vim_json_syntax_conceal = 0
 
-" ranger.vim
-" let g:ranger_map_keys = 0
-
 " esearch
 let g:esearch = {
     \ 'adapter':    'ag',
@@ -441,6 +437,12 @@ let g:esearch = {
 call esearch#map('<Leader>es', 'esearch')
 " Start esearch autofilled with a word under the cursor
 call esearch#map('<Leader>ew', 'esearch-word-under-cursor')
+
+" clever-f
+let g:clever_f_across_no_line = 1
+let g:clever_f_smart_case = 1
+let g:clever_f_timeout_ms = 1500
+let g:clever_f_show_prompt = 1
 
 
 " Autocmds
