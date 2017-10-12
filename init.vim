@@ -359,11 +359,13 @@ let g:fzf_colors = {
 " deoplete
 let g:deoplete#enable_at_startup = 1
 let g:deoplete#enable_camel_case = 1
-let g:deoplete#max_abbr_width = 100 " -1
-let g:deoplete#max_menu_width = 50 " -1
+" let g:deoplete#enable_refresh_always = 1
+let g:deoplete#max_abbr_width = 80 " -1
+let g:deoplete#max_menu_width = 40 " -1
 let g:deoplete#auto_complete_delay = 100
 let g:deoplete#sources = {}
-let g:deoplete#sources._ = ['around', 'member', 'tag']
+" let g:deoplete#sources._ = ['around', 'member', 'tag']
+let g:deoplete#sources._ = []
 let g:deoplete#sources.vim = ['vim', 'tag', 'neosnippet']
 let g:deoplete#sources.python = ['jedi', 'tag', 'neosnippet']
 let g:deoplete#sources.go = ['go', 'tag', 'neosnippet']
@@ -380,7 +382,8 @@ let g:deoplete#sources.typescript = ['typescript', 'tag', 'neosnippet']
 call deoplete#custom#set('_', 'disabled_syntaxes', ['Comment', 'String'])
 
 " deoplete-jedi
-let g:deoplete#sources#jedi#enable_cache = 1
+let g:deoplete#sources#jedi#server_timeout = 20 " 10
+let g:deoplete#sources#jedi#enable_cache = 1 " 0
 
 " deoplete-go
 let g:deoplete#sources#go#pointer = 1
@@ -411,7 +414,10 @@ let g:airline#extensions#ale#warning_symbol = '•'
 let g:ale_sign_error = '•'
 let g:ale_sign_warning = '•'
 let g:ale_echo_msg_format = '[%linter%] %s'
-let g:ale_linters = {'python': ['flake8'], 'typescript': ['tslint']}
+let g:ale_linters = {
+    \ 'python': ['flake8', 'mypy'],
+    \ 'typescript': ['tslint']
+    \ }
 let g:ale_linter_aliases = {'html': ['html', 'javascript', 'css']}
 let g:ale_set_quickfix = 1
 let g:ale_enabled = 0
@@ -683,11 +689,11 @@ inoremap <C-e> <Esc>A
 " Smash escape
 inoremap jk <Esc>
 " Navigate in popup
-inoremap <expr> <C-j> pumvisible() ? "\<C-n>" : "\<C-j>"
-inoremap <expr> <C-k> pumvisible() ? "\<C-p>" : "\<C-k>"
-inoremap <expr> <Esc> pumvisible() ? "\<C-e>" : "\<Esc>"
-inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<CR>"
-inoremap <expr><BS> deoplete#smart_close_popup() . "\<C-h>"
+inoremap <expr> <C-j>   pumvisible() ? "\<C-n>" : "\<C-j>"
+inoremap <expr> <C-k>   pumvisible() ? "\<C-p>" : "\<C-k>"
+inoremap <expr> <Esc>   pumvisible() ? "\<C-e>" : "\<Esc>"
+inoremap <expr> <CR>    pumvisible() ? "\<C-y>" : "\<CR>"
+inoremap <expr> <BS>    deoplete#smart_close_popup() . "\<C-h>"
 
 " Terminal normal mode
 tnoremap <Esc> <C-\><C-n><Esc><CR>
@@ -716,13 +722,12 @@ nnoremap <Leader>eu :edit!<CR>
 
 " File
 nnoremap <Leader>f :Files<CR>
-nnoremap <Leader>h :Files ~<CR>
 " Sudo save
 " nnoremap <Leader>F :update !sudo tee % >/dev/null<CR>
 nnoremap <Leader>F :w !sudo tee %<CR>
 " nnoremap <Leader>m :Vexplore<CR>
-" nnoremap <Leader>m :Ranger<CR>
 nnoremap <Leader>m :Vaffle<CR>
+nnoremap <Leader>h :Vaffle %:p:h<CR>
 
 " Buffer
 nnoremap <Leader>p :bprevious<CR>
