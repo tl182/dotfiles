@@ -40,6 +40,7 @@ if dein#load_state(s:bundle_dir)
     call dein#add('wellle/targets.vim')
     call dein#add('eugen0329/vim-esearch')
     call dein#add('rhysd/clever-f.vim')
+    call dein#add('ervandew/supertab')
 
     " Autocomplition, snippets, linting, formatting
     call dein#add('Shougo/context_filetype.vim')
@@ -450,6 +451,16 @@ let g:clever_f_smart_case = 1
 let g:clever_f_timeout_ms = 1500
 let g:clever_f_show_prompt = 1
 
+" supertab
+let g:SuperTabDefaultCompletionType = "context"
+let g:SuperTabCompletionContexts = ['s:ContextText', 's:ContextDiscover']
+let g:SuperTabContextTextOmniPrecedence = ['&omnifunc', '&completefunc']
+let g:SuperTabContextDiscoverDiscovery = ['&completefunc:<C-p>',
+    \'&omnifunc:<C-x><C-o>']
+let g:SuperTabMappingForward = "<C-j>"
+let g:SuperTabMappingBackward = "<C-k>"
+let g:SuperTabCrMapping = 1
+let g:SuperTabClosePreviewOnPopupClose = 1
 
 " Autocmds
 augroup MyNvimBasic
@@ -689,10 +700,10 @@ inoremap <C-e> <Esc>A
 " Smash escape
 inoremap jk <Esc>
 " Navigate in popup
-inoremap <expr> <C-j>   pumvisible() ? "\<C-n>" : "\<C-j>"
-inoremap <expr> <C-k>   pumvisible() ? "\<C-p>" : "\<C-k>"
+" inoremap <expr> <C-j>   pumvisible() ? "\<C-n>" : "\<C-j>"
+" inoremap <expr> <C-k>   pumvisible() ? "\<C-p>" : "\<C-k>"
 inoremap <expr> <Esc>   pumvisible() ? "\<C-e>" : "\<Esc>"
-inoremap <expr> <CR>    pumvisible() ? "\<C-y>" : "\<CR>"
+" inoremap <expr> <CR>    pumvisible() ? "\<C-y>" : "\<CR>"
 inoremap <expr> <BS>    deoplete#smart_close_popup() . "\<C-h>"
 
 " Terminal normal mode
