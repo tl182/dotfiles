@@ -13,7 +13,7 @@ export ZSH=/home/asleap/.oh-my-zsh
 # ZSH_THEME="dpoggi"
 # ZSH_THEME="half-life"
 # ZSH_THEME="pygmalion"
-ZSH_THEME="steeef"
+ZSH_THEME="lambda-mod"
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
@@ -131,6 +131,5 @@ export LESS_TERMCAP_us=$(printf '\e[04;36m') # enter underline mode - cyan
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+# Source nvm
+alias nvm='. ~/.nvm_init'
