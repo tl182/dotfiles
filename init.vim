@@ -24,7 +24,6 @@ if dein#load_state(s:bundle_dir)
     call dein#add('morhetz/gruvbox')
     call dein#add('mhinz/vim-startify')
     call dein#add('vim-airline/vim-airline')
-    call dein#add('vim-airline/vim-airline-themes')
     call dein#add('ryanoasis/vim-devicons')
     call dein#add('Yggdroot/indentLine')
     call dein#add('dominikduda/vim_current_word')
@@ -40,7 +39,6 @@ if dein#load_state(s:bundle_dir)
     call dein#add('wellle/targets.vim')
     call dein#add('eugen0329/vim-esearch')
     call dein#add('rhysd/clever-f.vim')
-    call dein#add('ervandew/supertab')
 
     " Autocomplition, snippets, linting, formatting
     call dein#add('Shougo/context_filetype.vim')
@@ -95,8 +93,9 @@ endif
 
 " Settings
 " Timeout settings
-set timeoutlen=500
-set ttimeoutlen=100
+set timeoutlen=300
+set ttimeoutlen=50
+
 
 " Map leader keys
 let maplocalleader=','
@@ -223,7 +222,7 @@ set wrap                            " Enable word wrap
 set wrapscan                        " Searches wrap around end of file
 
 
-" Appearance
+" Plugin configuration (:help <PluginName>)
 " Gruvbox
 set termguicolors
 let g:gruvbox_bold=1
@@ -235,13 +234,21 @@ let g:gruvbox_impoved_strings=1
 let g:gruvbox_improved_warnings=1
 set background=dark
 colorscheme gruvbox
-" Airline
 set noshowmode
+
+" netrw
+let g:netrw_liststyle = 3
+let g:netrw_browse_split = 4
+let g:netrw_winsize = -30
+let g:netrw_list_hide = &wildignore
+let g:netrw_sort_sequence = '[\/]$,*'
+
+" airline
 let g:airline_theme = 'gruvbox'
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#show_splits=1
-let g:airline#extensions#tabline#show_buffers=1
+let g:airline#extensions#tabline#show_splits = 1
+let g:airline#extensions#tabline#show_buffers = 1
 " let g:airline#extensions#tabline#buffer_idx_mode = 1
 let g:airline#extensions#tabline#buffer_nr_show = 1
 let g:airline#extensions#tabline#buffer_nr_format = '%s:'
@@ -261,6 +268,7 @@ let g:airline#extensions#default#layout = [
     \ [ 'a', 'error', 'warning', 'b', 'c' ],
     \ [ 'x', 'y', 'z' ]
     \ ]
+
 " Webdevicons
 let g:webdevicons_enable_airline_tabline=1
 let g:webdevicons_enable_airline_statusline=1
@@ -270,30 +278,27 @@ if exists('*WebDevIconsGetFileTypeSymbol')
 else
     let entry_format .= '. entry_path'
 endif
+
 " Startify
 let g:startify_session_dir = '~/.local/share/nvim/sessions'
 let g:startify_bookmarks = ['~', '~/Desktop']
 let g:startify_change_to_vcs_root = 1
+
+" indentLine
 let g:indentLine_char='│'
-" Current word
+
+" vim_current_word
 let g:vim_current_word#highlight_twins = 1
 let g:vim_current_word#highlight_current_word = 1
-" vim_current_word
 " hi CurrentWord ctermfg=XXX ctermbg=XXX cterm=underline,bold,italic
 highlight CurrentWord gui=underline cterm=underline
 highlight CurrentWordTwins gui=underline cterm=underline
 
-
-" Plugin configuration (:help <PluginName>)
-" netrw
-let g:netrw_liststyle = 3
-let g:netrw_browse_split = 4
-let g:netrw_winsize = -30
-let g:netrw_list_hide = &wildignore
-let g:netrw_sort_sequence = '[\/]$,*'
-
 " AutoPairs
-let g:AutoPairsShortcutJump = "<M-f>"
+let g:AutoPairsShortcutToggle = ""
+let g:AutoPairsShortcutFastWrap = ""
+let g:AutoPairsShortcutJump = ""
+let g:AutoPairsShortcutBackInsert = ""
 let g:AutoPairsFlyMode = 0
 
 " DoxygenToolkit
@@ -452,15 +457,15 @@ let g:clever_f_timeout_ms = 1500
 let g:clever_f_show_prompt = 1
 
 " supertab
-let g:SuperTabDefaultCompletionType = "context"
-let g:SuperTabCompletionContexts = ['s:ContextText', 's:ContextDiscover']
-let g:SuperTabContextTextOmniPrecedence = ['&omnifunc', '&completefunc']
-let g:SuperTabContextDiscoverDiscovery = ['&completefunc:<C-p>',
-    \'&omnifunc:<C-x><C-o>']
-let g:SuperTabMappingForward = "<C-j>"
-let g:SuperTabMappingBackward = "<C-k>"
-let g:SuperTabCrMapping = 1
-let g:SuperTabClosePreviewOnPopupClose = 1
+" let g:SuperTabDefaultCompletionType = "context"
+" let g:SuperTabCompletionContexts = ['s:ContextText', 's:ContextDiscover']
+" let g:SuperTabContextTextOmniPrecedence = ['&omnifunc', '&completefunc']
+" let g:SuperTabContextDiscoverDiscovery = ['&completefunc:<C-p>',
+"     \'&omnifunc:<C-x><C-o>']
+" let g:SuperTabMappingForward = "<C-j>"
+" let g:SuperTabMappingBackward = "<C-k>"
+" let g:SuperTabCrMapping = 1
+" let g:SuperTabClosePreviewOnPopupClose = 1
 
 " Autocmds
 augroup MyNvimBasic
@@ -700,10 +705,10 @@ inoremap <C-e> <Esc>A
 " Smash escape
 inoremap jk <Esc>
 " Navigate in popup
-" inoremap <expr> <C-j>   pumvisible() ? "\<C-n>" : "\<C-j>"
-" inoremap <expr> <C-k>   pumvisible() ? "\<C-p>" : "\<C-k>"
+inoremap <expr> <C-j>   pumvisible() ? "\<C-n>" : "\<C-j>"
+inoremap <expr> <C-k>   pumvisible() ? "\<C-p>" : "\<C-k>"
 inoremap <expr> <Esc>   pumvisible() ? "\<C-e>" : "\<Esc>"
-" inoremap <expr> <CR>    pumvisible() ? "\<C-y>" : "\<CR>"
+inoremap <expr> <CR>    pumvisible() ? "\<C-y>" : "\<CR>"
 inoremap <expr> <BS>    deoplete#smart_close_popup() . "\<C-h>"
 
 " Terminal normal mode
@@ -720,7 +725,7 @@ nnoremap <Leader>td :call deoplete#toggle()<CR>
 nnoremap <Leader>th :VimCurrentWordToggle<CR>
 nnoremap <Leader>tc :set cursorline!<CR>
 nnoremap <Leader>tl :ToggleColorColumn<CR>
-let g:AutoPairsShortcutToggle = "<Leader>ta"
+" let g:AutoPairsShortcutToggle = "<Leader>ta"
 nnoremap <Leader>tt :TagbarToggle<CR>
 nnoremap <leader>tu :UndotreeToggle<CR>
 
