@@ -1,0 +1,8 @@
+neovim
+jedi
+ipython
+ipdb
+flake8
+mypy
+autopep8
+isort

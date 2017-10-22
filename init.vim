@@ -37,7 +37,6 @@ if dein#load_state(s:bundle_dir)
     call dein#add('editorconfig/editorconfig-vim')
     call dein#add('mbbill/undotree')
     call dein#add('wellle/targets.vim')
-    call dein#add('eugen0329/vim-esearch')
     call dein#add('rhysd/clever-f.vim')
 
     " Autocomplition, snippets, linting, formatting
@@ -174,8 +173,8 @@ set nobackup
 set swapfile
 
 
-" Autocompletion and command completion
-set completeopt=menuone,longest
+" Command line
+set completeopt=menu,longest,preview
 set wildmenu
 set wildmode=list:full
 set wildignore+=*~,*.o,core.*,*.exe,.git/,.hg/,.svn/,.DS_Store,*.pyc
@@ -437,35 +436,12 @@ nnoremap <Localleader>f :Neoformat<CR>
 " vim-json
 let g:vim_json_syntax_conceal = 0
 
-" esearch
-let g:esearch = {
-    \ 'adapter':    'ag',
-    \ 'backend':    'nvim',
-    \ 'out':        'win',
-    \ 'batch_size': 1000,
-    \ 'use':        [],
-    \ }
-" Start esearch prompt autofilled with one of g:esearch.use initial patterns
-call esearch#map('<Leader>es', 'esearch')
-" Start esearch autofilled with a word under the cursor
-call esearch#map('<Leader>ew', 'esearch-word-under-cursor')
-
 " clever-f
 let g:clever_f_across_no_line = 1
 let g:clever_f_smart_case = 1
 let g:clever_f_timeout_ms = 1500
 let g:clever_f_show_prompt = 1
 
-" supertab
-" let g:SuperTabDefaultCompletionType = "context"
-" let g:SuperTabCompletionContexts = ['s:ContextText', 's:ContextDiscover']
-" let g:SuperTabContextTextOmniPrecedence = ['&omnifunc', '&completefunc']
-" let g:SuperTabContextDiscoverDiscovery = ['&completefunc:<C-p>',
-"     \'&omnifunc:<C-x><C-o>']
-" let g:SuperTabMappingForward = "<C-j>"
-" let g:SuperTabMappingBackward = "<C-k>"
-" let g:SuperTabCrMapping = 1
-" let g:SuperTabClosePreviewOnPopupClose = 1
 
 " Autocmds
 augroup MyNvimBasic
@@ -571,7 +547,7 @@ function! ExecuteCommand(command)
 endfunction
 command! -nargs=0 StripTrailingWhitespace call ExecuteCommand("%s/\\s\\+$//e")
 
-command! -nargs=0 FilenameToClipboard let @+ = expand("%")
+command! -nargs=0 CopyFilename let @+ = expand("%")
 
 function! ToggleNumber()
     if(&relativenumber == 1)
@@ -611,23 +587,6 @@ endfunction
 command! -nargs=? -range=% Space2Tab call IndentConvert(<line1>,<line2>,0,<q-args>)
 command! -nargs=? -range=% Tab2Space call IndentConvert(<line1>,<line2>,1,<q-args>)
 command! -nargs=? -range=% RetabIndent call IndentConvert(<line1>,<line2>,&et,<q-args>)
-
-function! <SID>MaximizeToggle()
-    if exists('s:maximize_session')
-        exec "source " . s:maximize_session
-        call delete(s:maximize_session)
-        unlet s:maximize_session
-        let &hidden = s:maximize_hidden_save
-        unlet s:maximize_hidden_save
-    else
-        let s:maximize_hidden_save = &hidden
-        let s:maximize_session = tempname()
-        set hidden
-        exec "mksession! " . s:maximize_session
-        only
-    endif
-endfunction
-command! -nargs=0 MaximizeToggle call <SID>MaximizeToggle()
 
 function! ToggleColorColumn()
     if &colorcolumn
@@ -718,6 +677,7 @@ tnoremap <Esc> <C-\><C-n><Esc><CR>
 " Toggle
 nnoremap <Leader>tw :set list!<CR>
 nnoremap <Leader>tn :call ToggleNumber()<CR>
+" Spellcheck: [s, ]s - previous and next error
 nnoremap <Leader>ts :setlocal spell! spelllang=en_us<CR>
 nnoremap <Leader>tk :terminal<CR>
 nnoremap <Leader>ti :IndentLinesToggle<CR>
@@ -725,7 +685,6 @@ nnoremap <Leader>td :call deoplete#toggle()<CR>
 nnoremap <Leader>th :VimCurrentWordToggle<CR>
 nnoremap <Leader>tc :set cursorline!<CR>
 nnoremap <Leader>tl :ToggleColorColumn<CR>
-" let g:AutoPairsShortcutToggle = "<Leader>ta"
 nnoremap <Leader>tt :TagbarToggle<CR>
 nnoremap <leader>tu :UndotreeToggle<CR>
 
@@ -733,6 +692,13 @@ nnoremap <leader>tu :UndotreeToggle<CR>
 nnoremap <Leader>ed :StripTrailingWhitespace<CR>
 " Search and replace
 nnoremap <Leader>er :%s//g<Left><Left>
+" Search project-wide
+nnoremap <Leader>es :vimgrep // **/*.*<Left><Left><Left><Left><Left><Left><Left><Left>
+" :copen - show all found
+" :close - close found
+" :cn, :cp - next, previous
+" Registers
+" :reg [reg-name] - show register content
 " Undo all
 nnoremap <Leader>eu :edit!<CR>
 
@@ -752,25 +718,20 @@ nnoremap <Leader>b :Buffers<CR>
 nnoremap <Leader>d :bd<CR>
 nnoremap <Leader>bf :bfirst<CR>
 nnoremap <Leader>bl :blast<CR>
-nnoremap <Leader>bh :Startify<CR>
 
 " Window
-nnoremap <Leader>w :Windows<CR>
 " :vnew<CR> - new vertical split
 " <C-w>r/R - rotate
-" nnoremap <Leader>wo :only<CR>
-nnoremap <Leader>wo :MaximizeToggle<CR>
-nnoremap <Leader>wu :resize +5<CR>
-nnoremap <Leader>wb :resize -5<CR>
+" <C-w>o - maximize window
+" <C-w>c - close window
+" <C-w>+,-,=,<,> - resize
+nnoremap <Leader>w :Windows<CR>
 " Tab
 nnoremap <Leader>we :tabe<CR>
 nnoremap <leader>wn :tabn<CR>
 nnoremap <Leader>wp :tabp<CR>
 
 " Lint (ale)
-nnoremap <Leader>lf :ALEFix<CR>
-nnoremap <Leader>ls :ALEFixSuggest<CR>
-nnoremap <Leader>li :ALEInfo<CR>
 nnoremap <Leader>ll :ALELint<CR>
 nnoremap <Leader>lp :ALEPreviousWrap<CR>
 nnoremap <Leader>ln :ALENextWrap<CR>
