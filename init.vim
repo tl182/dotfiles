@@ -174,7 +174,6 @@ set swapfile
 
 
 " Command line
-set completeopt=menu,longest,preview
 set wildmenu
 set wildmode=list:full
 set wildignore+=*~,*.o,core.*,*.exe,.git/,.hg/,.svn/,.DS_Store,*.pyc
@@ -190,6 +189,7 @@ set foldlevelstart=99               " Open all folds by default
 
 
 " Other options
+set completeopt=menu,longest        " Set completion menu
 set cursorline                      " Highlight current line
 set formatoptions+=o                " Continue comment markers in new line
 set gdefault                        " Set global flag for search and replace
@@ -423,6 +423,7 @@ let g:ale_linters = {
     \ 'python': ['flake8', 'mypy'],
     \ 'typescript': ['tslint']
     \ }
+let g:ale_python_mypy_options = '--ignore-missing-imports'
 let g:ale_linter_aliases = {'html': ['html', 'javascript', 'css']}
 let g:ale_set_quickfix = 1
 let g:ale_enabled = 0
