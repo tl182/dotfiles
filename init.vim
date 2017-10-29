@@ -71,6 +71,9 @@ if dein#load_state(s:bundle_dir)
     " Markdown
     call dein#add('rhysd/vim-gfm-syntax')
 
+    " Fish shell
+    call dein#add('aliva/vim-fish')
+
     " File management
     call dein#add('junegunn/fzf', { 'build': './install --all', 'merged': 0 })
     call dein#add('junegunn/fzf.vim', { 'depends': 'fzf' })
@@ -112,7 +115,7 @@ set backupdir=.,~/.local/share/nvim/backup
 set belloff=all
 set complete-=i
 set directory=~/.local/share/nvim/swap
-set display=lastline
+set display+=lastline
 set formatoptions=tcqj
 set history=1000
 set hlsearch
@@ -619,10 +622,6 @@ nnoremap <C-h> <C-w><C-h>
 nnoremap <C-j> <C-w><C-j>
 nnoremap <C-k> <C-w><C-k>
 nnoremap <C-l> <C-w><C-l>
-nnoremap <Left> :bprev<CR>
-nnoremap <Right> :bnext<CR>
-nnoremap <Up> :tabnext<CR>
-nnoremap <Down> :tabprev<CR>
 nnoremap / /\v
 nnoremap ? ?\v
 " Folds
