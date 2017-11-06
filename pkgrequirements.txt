@@ -1,0 +1,7 @@
+Packages to install:
+    - fish
+    - tmux
+    - ag (aka the silver searcher)
+    - pyenv
+    - nvm
+    - neovim
