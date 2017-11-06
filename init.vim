@@ -38,6 +38,7 @@ if dein#load_state(s:bundle_dir)
     call dein#add('mbbill/undotree')
     call dein#add('wellle/targets.vim')
     call dein#add('rhysd/clever-f.vim')
+    call dein#add('eugen0329/vim-esearch')
 
     " Autocomplition, snippets, linting, formatting
     call dein#add('Shougo/context_filetype.vim')
@@ -363,6 +364,19 @@ let g:fzf_colors = {
         \ 'spinner': ['fg', 'Label'],
         \ 'header':  ['fg', 'Comment'],
         \   }
+
+" esearch
+let g:esearch = {
+    \ 'adapter':    'ag',
+    \ 'backend':    'nvim',
+    \ 'out':        'win',
+    \ 'batch_size': 1000,
+    \ 'use':        [],
+    \ }
+" Start esearch prompt autofilled with one of g:esearch.use initial patterns
+call esearch#map('<Leader>es', 'esearch')
+" Start esearch autofilled with a word under the cursor
+call esearch#map('<Leader>ew', 'esearch-word-under-cursor')
 
 " deoplete
 let g:deoplete#enable_at_startup = 1
@@ -693,7 +707,7 @@ nnoremap <Leader>ed :StripTrailingWhitespace<CR>
 " Search and replace
 nnoremap <Leader>er :%s//g<Left><Left>
 " Search project-wide
-nnoremap <Leader>es :vimgrep // **/*.*<Left><Left><Left><Left><Left><Left><Left><Left>
+" nnoremap <Leader>es :vimgrep // **/*.*<Left><Left><Left><Left><Left><Left><Left><Left>
 " :copen - show all found
 " :close - close found
 " :cn, :cp - next, previous
