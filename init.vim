@@ -39,6 +39,7 @@ if dein#load_state(s:bundle_dir)
     call dein#add('wellle/targets.vim')
     call dein#add('rhysd/clever-f.vim')
     call dein#add('eugen0329/vim-esearch')
+    call dein#add('christoomey/vim-tmux-navigator')
 
     " Autocomplition, snippets, linting, formatting
     call dein#add('Shougo/context_filetype.vim')
@@ -632,12 +633,20 @@ noremap H ^
 noremap L g_
 noremap J 5j
 noremap K 5k
-nnoremap <C-h> <C-w><C-h>
-nnoremap <C-j> <C-w><C-j>
-nnoremap <C-k> <C-w><C-k>
-nnoremap <C-l> <C-w><C-l>
-nnoremap / /\v
-nnoremap ? ?\v
+" Splits
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
+" tmux-navigator
+if &term == 'screen-256color' || &term == 'tmux-256color'
+    let g:tmux_navigator_no_mappings = 1
+    let g:tmux_navigator_save_on_switch = 2
+    nnoremap <C-h> :TmuxNavigateLeft<cr>
+    nnoremap <C-j> :TmuxNavigateDown<cr>
+    nnoremap <C-k> :TmuxNavigateUp<cr>
+    nnoremap <C-l> :TmuxNavigateRight<cr>
+endif
 " Folds
 nnoremap zr zr:echo &foldlevel<CR>
 nnoremap zm zm:echo &foldlevel<CR>
@@ -646,12 +655,13 @@ nnoremap zM zM:echo &foldlevel<CR>
 nnoremap za za:echo &foldlevel<CR>
 " Clear search results
 nnoremap <Esc> :nohlsearch<CR>
+nnoremap / /\v
+nnoremap ? ?\v
+noremap Y y$
 " Select last paste in visual mode
 nnoremap <expr> gb '`[' . strpart(getregtype(), 0, 1) . '`]'
 " Redo
 nnoremap U <C-r>
-nnoremap <M-h> :vertical resize +5<CR>
-nnoremap <M-l> :vertical resize -5<CR>
 
 " Visual mode
 vnoremap / /\v
@@ -734,6 +744,9 @@ nnoremap <Leader>bf :bfirst<CR>
 nnoremap <Leader>bl :blast<CR>
 
 " Window
+nnoremap <Leader>s :split<CR>
+nnoremap <Leader>v :vsplit<CR>
+nnoremap <Leader>q :close<CR>
 " :vnew<CR> - new vertical split
 " <C-w>r/R - rotate
 " <C-w>o - maximize window
