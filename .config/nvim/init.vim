@@ -76,6 +76,9 @@ if dein#load_state(s:bundle_dir)
     " Fish shell
     call dein#add('aliva/vim-fish')
 
+    " Jinja
+    call dein#add('Glench/Vim-Jinja2-Syntax')
+
     " File management
     call dein#add('junegunn/fzf', { 'build': './install --all', 'merged': 0 })
     call dein#add('junegunn/fzf.vim', { 'depends': 'fzf' })
@@ -458,7 +461,7 @@ let g:vim_json_syntax_conceal = 0
 " clever-f
 let g:clever_f_across_no_line = 1
 let g:clever_f_smart_case = 1
-let g:clever_f_timeout_ms = 1500
+" let g:clever_f_timeout_ms = 1500
 let g:clever_f_show_prompt = 1
 
 
