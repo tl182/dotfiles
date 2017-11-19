@@ -62,6 +62,8 @@ if dein#load_state(s:bundle_dir)
 
     " JavaScript
     call dein#add('othree/yajs.vim')
+    call dein#add('carlitux/deoplete-ternjs')
+    " call dein#add('ternjs/tern_for_vim')
 
     " TypeScript
     call dein#add('HerringtonDarkholme/yats.vim')
@@ -367,7 +369,7 @@ let g:fzf_colors = {
         \ 'marker':  ['fg', 'String'],
         \ 'spinner': ['fg', 'Label'],
         \ 'header':  ['fg', 'Comment'],
-        \   }
+        \ }
 
 " esearch
 let g:esearch#out#win#open = 'enew'
@@ -395,6 +397,7 @@ let g:deoplete#sources._ = []
 let g:deoplete#sources.vim = ['vim', 'tag', 'neosnippet']
 let g:deoplete#sources.python = ['jedi', 'tag', 'neosnippet']
 let g:deoplete#sources.go = ['go', 'tag', 'neosnippet']
+let g:deoplete#sources.javascript = ['tern', 'tag', 'neosnippet']
 let g:deoplete#sources.typescript = ['typescript', 'tag', 'neosnippet']
 " let g:deoplete#file#enable_buffer_path = 1
 " call deoplete#custom#set('_', 'matchers', ['matcher_head'])
@@ -411,16 +414,6 @@ call deoplete#custom#set('_', 'disabled_syntaxes', ['Comment', 'String'])
 let g:deoplete#sources#jedi#server_timeout = 20 " 10
 let g:deoplete#sources#jedi#enable_cache = 1 " 0
 
-" deoplete-go
-let g:deoplete#sources#go#pointer = 1
-
-" echodoc
-let g:echodoc#enable_at_startup = 1
-
-" neosnippet
-imap <C-s> <Plug>(neosnippet_expand_or_jump)
-let g:neosnippet#enable_snipmate_compatibility = 1
-
 " jedi-vim
 let g:jedi#auto_initialization = 0
 let g:jedi#auto_vim_configuration = 0
@@ -432,6 +425,25 @@ let g:jedi#popup_on_dot = 0
 let g:jedi#popup_select_first = 0
 let g:jedi#auto_close_doc = 1
 
+" deoplete-go
+let g:deoplete#sources#go#pointer = 1
+
+" deoplete-ternjs
+let g:deoplete#sources#ternjs#types = 1
+
+" tern (requires global node installation, not nvm)
+" let g:tern_map_keys = 0
+" let g:tern_show_argument_hints = 'on_move'
+" let g:tern_show_signature_in_pum = 0
+" let g:tern_show_loc_after_rename = 1
+
+" echodoc
+let g:echodoc#enable_at_startup = 1
+
+" neosnippet
+imap <C-s> <Plug>(neosnippet_expand_or_jump)
+let g:neosnippet#enable_snipmate_compatibility = 1
+
 " ale
 " let g:ale_sign_column_always = 1
 " let g:ale_lint_on_text_changed = 0
@@ -442,6 +454,7 @@ let g:ale_sign_warning = '•'
 let g:ale_echo_msg_format = '[%linter%] %s'
 let g:ale_linters = {
     \ 'python': ['flake8', 'mypy'],
+    \ 'javascript': ['eslint'],
     \ 'typescript': ['tslint']
     \ }
 let g:ale_python_mypy_options = '--ignore-missing-imports'
@@ -452,6 +465,7 @@ let g:ale_enabled = 0
 " neoformat
 let g:neoformat_run_all_formatters = 1
 let g:neoformat_enabled_python = ['autopep8', 'isort']
+let g:neoformat_enabled_javascript = ['prettier']
 let g:neoformat_enabled_typescript = ['prettier']
 nnoremap <Localleader>f :Neoformat<CR>
 
@@ -512,6 +526,24 @@ augroup MyPythonAutocmds
     autocmd FileType python nnoremap <buffer> <Localleader>u :call jedi#usages()<CR>
     autocmd FileType python nnoremap <buffer> <Localleader>v2 :call jedi#force_py_version(2)
     autocmd FileType python nnoremap <buffer> <Localleader>v3 :call jedi#force_py_version(3)
+augroup END
+
+augroup MyJavaScriptAutocmds
+    autocmd!
+    autocmd FileType javascript setlocal
+        \ foldmethod=indent
+        \ tabstop=4
+        \ shiftwidth=4
+        \ softtabstop=4
+        " \ textwidth=79
+        \ expandtab
+        \ autoindent
+        \ fileformat=unix
+    " autocmd FileType javascript nnoremap <buffer> <Localleader>d :TernDoc<CR>
+    " autocmd FileType javascript nnoremap <buffer> <Localleader>t :TernType<CR>
+    " autocmd FileType javascript nnoremap <buffer> <Localleader>g :TernDef<CR>
+    " autocmd FileType javascript nnoremap <buffer> <Localleader>a :TernRefs<CR>
+    " autocmd FileType javascript nnoremap <buffer> <Localleader>r :TernRename<CR>
 augroup END
 
 augroup MyTypeScriptAutocmds
@@ -720,7 +752,6 @@ nnoremap <Leader>ed :StripTrailingWhitespace<CR>
 " Search and replace
 nnoremap <Leader>er :%s//g<Left><Left>
 " Search project-wide
-" nnoremap <Leader>es :vimgrep // **/*.*<Left><Left><Left><Left><Left><Left><Left><Left>
 " :copen - show all found
 " :close - close found
 " :cn, :cp - next, previous
@@ -754,7 +785,7 @@ nnoremap <Leader>q :close<CR>
 " <C-w>r/R - rotate
 " <C-w>o - maximize window
 " <C-w>c - close window
-" <C-w>+,-,=,<,> - resize
+" <C-w>_,|,+,-,=,<,> - resize
 nnoremap <Leader>w :Windows<CR>
 " Tab
 nnoremap <Leader>we :tabe<CR>

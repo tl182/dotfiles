@@ -18,4 +18,6 @@
 
 #### NPM packages for NeoVim:
     - tslint
+    - eslint
     - prettier
+    - tern
