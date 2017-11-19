@@ -370,13 +370,13 @@ let g:fzf_colors = {
         \   }
 
 " esearch
-let g:esearch = {
-    \ 'adapter':    'ag',
-    \ 'backend':    'nvim',
-    \ 'out':        'win',
-    \ 'batch_size': 1000,
-    \ 'use':        [],
-    \ }
+let g:esearch#out#win#open = 'enew'
+if !exists('g:esearch')
+    let g:esearch = {}
+endif
+let g:esearch.backend = 'nvim'
+" let g:esearch.out = 'qflist'
+let g:esearch.use = []
 " Start esearch prompt autofilled with one of g:esearch.use initial patterns
 call esearch#map('<Leader>es', 'esearch')
 " Start esearch autofilled with a word under the cursor
