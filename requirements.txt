@@ -1,3 +1,11 @@
 ipython
 ipdb
 httpie
+neovim
+jedi
+flake8
+pylint
+mypy
+autopep8
+isort
+pipenv

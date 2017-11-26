@@ -8,15 +8,7 @@
     - gvm
     - neovim
 
-#### Pip packages for NeoVim:
-    - neovim
-    - jedi
-    - flake8
-    - mypy
-    - autopep8
-    - isort
-
-#### NPM packages for NeoVim:
+#### NPM packages:
     - tslint
     - eslint
     - prettier
