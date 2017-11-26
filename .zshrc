@@ -13,7 +13,8 @@ export ZSH=/home/asleap/.oh-my-zsh
 # ZSH_THEME="dpoggi"
 # ZSH_THEME="half-life"
 # ZSH_THEME="pygmalion"
-ZSH_THEME="lambda-mod"
+# ZSH_THEME="lambda-mod"
+ZSH_THEME="steeef"
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
