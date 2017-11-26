@@ -22,10 +22,6 @@ function fish_prompt
   set -l bgreen (set_color -o green)
   set -l red (set_color red)
 
-  # Configure __fish_git_prompt
-  set -g __fish_git_prompt_show_informative_status true
-  set -g __fish_git_prompt_showcolorhints true
-
   # Color prompt char red for non-zero exit status
   set -l pcolor $normal
   if [ $last_status -ne 0 ]

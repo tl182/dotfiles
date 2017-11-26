@@ -4,6 +4,10 @@ set fish_greeting
 # Show full path
 set -g fish_prompt_pwd_dir_length 0
 
+# Set git prompt
+set -g __fish_git_prompt_show_informative_status 1
+set -g __fish_git_prompt_showcolorhints 1
+
 # Set default editor
 set --export EDITOR nvim
 set --export VISUAL nvim
