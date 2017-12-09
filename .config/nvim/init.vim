@@ -85,7 +85,7 @@ if dein#load_state(s:bundle_dir)
     call dein#add('Glench/Vim-Jinja2-Syntax')
 
     " Go
-    " call dein#add('zchee/deoplete-go', {'build': 'make'})
+    call dein#add('zchee/deoplete-go', {'build': 'make'})
 
     " JavaScript
     call dein#add('othree/yajs.vim')
