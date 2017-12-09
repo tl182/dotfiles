@@ -1,10 +1,38 @@
 scriptencoding utf-8
 
-" Explicitly state paths for Pyenv
-let g:python_host_prog = '/home/asleap/.pyenv/versions/neovim2/bin/python'
-let g:python3_host_prog = '/home/asleap/.pyenv/versions/neovim3/bin/python'
+" Commands:
+" :Toggleline           - toggle vertical line at 80th column
+" :Space2tab            - convert spaces to tabs
+" :Tab2Space            - convert tabs to spaces
+" :Retabindent          - re-indent
+" :Stripws              - strip trailing whitespaces
+" :Cpfilename           - copy filename
 
-" Setup dein
+" :Vexplore             - open netrw
+" :vert help <help-name> - to show help in new vertical buffer
+
+" :vnew                 - new vertical split
+" :vsplit               - vertical split
+" :close, <C-w>c        - close
+" :only, <C-w>o         - maximize
+" <C-w>r/R              - rotate
+" <C-w>_,|,+,-,=,<,>    - resize
+
+" :copen                - open quickfix
+" :cn, :cp              - next, prev
+" :lopen                - open loclist
+" :lclose               - close loclist
+" :reg <register-name>  - show register
+
+" Profiling:
+" :syntime on           - start profile
+" :syntime report       - show report
+
+" Spellcheck:
+" :setlocal spell! spelllang=en_us<CR> - toggle
+" [s, ]s - previous and next error
+
+
 if (!isdirectory(expand("$HOME/.config/nvim/bundle/repos/github.com/Shougo/dein.vim")))
     call system(expand("mkdir -p $HOME/.config/nvim/bundle/repos/github.com"))
     call system(expand("git clone https://github.com/Shougo/dein.vim $HOME/.config/nvim/bundle/repos/github.com/Shougo/dein.vim"))
@@ -22,8 +50,10 @@ if dein#load_state(s:bundle_dir)
 
     " Appearance, UI
     call dein#add('morhetz/gruvbox')
+    call dein#add('mhinz/vim-startify')
     call dein#add('itchyny/lightline.vim')
     call dein#add('mgee/lightline-bufferline')
+    call dein#add('maximbaz/lightline-trailing-whitespace')
     call dein#add('Yggdroot/indentLine')
     call dein#add('dominikduda/vim_current_word')
 
@@ -33,7 +63,6 @@ if dein#load_state(s:bundle_dir)
     call dein#add('majutsushi/tagbar')
     call dein#add('jiangmiao/auto-pairs')
     call dein#add('editorconfig/editorconfig-vim')
-    call dein#add('mbbill/undotree')
     call dein#add('wellle/targets.vim')
     call dein#add('rhysd/clever-f.vim')
     call dein#add('eugen0329/vim-esearch')
@@ -46,7 +75,6 @@ if dein#load_state(s:bundle_dir)
     call dein#add('Shougo/echodoc.vim')
     call dein#add('Shougo/neosnippet.vim')
     call dein#add('Shougo/neosnippet-snippets')
-    call dein#add('honza/vim-snippets')
     call dein#add('w0rp/ale')
     call dein#add('sbdchd/neoformat')
 
@@ -54,9 +82,10 @@ if dein#load_state(s:bundle_dir)
     call dein#add('zchee/deoplete-jedi')
     call dein#add('davidhalter/jedi-vim')
     call dein#add('Vimjas/vim-python-pep8-indent')
+    call dein#add('Glench/Vim-Jinja2-Syntax')
 
     " Go
-    call dein#add('zchee/deoplete-go', {'build': 'make'})
+    " call dein#add('zchee/deoplete-go', {'build': 'make'})
 
     " JavaScript
     call dein#add('othree/yajs.vim')
@@ -75,9 +104,6 @@ if dein#load_state(s:bundle_dir)
 
     " Fish shell
     call dein#add('aliva/vim-fish')
-
-    " Jinja
-    call dein#add('Glench/Vim-Jinja2-Syntax')
 
     " File management
     call dein#add('junegunn/fzf', { 'build': './install --all', 'merged': 0 })
@@ -168,10 +194,10 @@ endif
 
 " Scroll settings
 if !&scrolloff
-    set scrolloff=6                 " Show next 3 lines while scrolling.
+    set scrolloff=5                 " Show next 5 lines while scrolling.
 endif
 if !&sidescrolloff
-    set sidescrolloff=6             " Show next 5 columns while side-scrolling.
+    set sidescrolloff=5             " Show next 5 columns while side-scrolling.
 endif
 
 
@@ -250,12 +276,27 @@ let g:netrw_winsize = -30
 let g:netrw_list_hide = &wildignore
 let g:netrw_sort_sequence = '[\/]$,*'
 
+" Startify
+let g:startify_session_dir = '~/.local/share/nvim/sessions'
+let g:startify_bookmarks = ['~', '~/Desktop']
+let g:startify_change_to_vcs_root = 1
+
 " lightline
 let g:lightline = {}
 let g:lightline.colorscheme = 'gruvbox'
-let g:lightline.tabline = {'left': [['buffers']], 'right': [['']]}
-let g:lightline.component_expand = {'buffers': 'lightline#bufferline#buffers'}
-let g:lightline.component_type = {'buffers': 'tabsel'}
+let g:lightline.active = {}
+let g:lightline.active.right = [
+    \ ['trailing'], ['lineinfo'], ['percent'], ['fileformat', 'fileencoding', 'filetype']
+    \ ]
+let g:lightline.tabline = { 'left': [ ['buffers'] ], 'right': [ [''] ] }
+let g:lightline.component_expand = {
+    \ 'buffers': 'lightline#bufferline#buffers',
+    \ 'trailing': 'lightline#trailing_whitespace#component',
+    \ }
+let g:lightline.component_type = {
+    \ 'buffers': 'tabsel',
+    \ 'trailing': 'error',
+    \ }
 let g:lightline#bufferline#show_number = 1
 
 " indentLine
@@ -264,7 +305,6 @@ let g:indentLine_char='│'
 " vim_current_word
 let g:vim_current_word#highlight_twins = 1
 let g:vim_current_word#highlight_current_word = 1
-" hi CurrentWord ctermfg=XXX ctermbg=XXX cterm=underline,bold,italic
 highlight CurrentWord gui=underline cterm=underline
 highlight CurrentWordTwins gui=underline cterm=underline
 
@@ -283,37 +323,9 @@ vmap <Leader>\ <Plug>NERDCommenterToggle
 " tagbar
 let g:tagbar_autofocus = 1
 let g:tagbar_sort = 0
-let g:tagbar_type_go = {
-    \ 'ctagstype' : 'go',
-    \ 'kinds'     : [
-        \ 'p:package',
-        \ 'i:imports:1',
-        \ 'c:constants',
-        \ 'v:variables',
-        \ 't:types',
-        \ 'n:interfaces',
-        \ 'w:fields',
-        \ 'e:embedded',
-        \ 'm:methods',
-        \ 'r:constructor',
-        \ 'f:functions'
-    \ ],
-    \ 'sro' : '.',
-    \ 'kind2scope' : {
-        \ 't' : 'ctype',
-        \ 'n' : 'ntype'
-    \ },
-    \ 'scope2kind' : {
-        \ 'ctype' : 't',
-        \ 'ntype' : 'n'
-    \ },
-    \ 'ctagsbin'  : 'gotags',
-    \ 'ctagsargs' : '-sort -silent'
-    \ }
 
 " FZF
 let $LANG = 'en_US'
-" Customize fzf colors to match your color scheme
 let g:fzf_colors = {
         \ 'fg':      ['fg', 'Normal'],
         \ 'bg':      ['bg', 'Normal'],
@@ -357,15 +369,6 @@ let g:deoplete#sources.python = ['jedi', 'tag', 'neosnippet']
 let g:deoplete#sources.go = ['go', 'tag', 'neosnippet']
 let g:deoplete#sources.javascript = ['tern', 'tag', 'neosnippet']
 let g:deoplete#sources.typescript = ['typescript', 'tag', 'neosnippet']
-" let g:deoplete#file#enable_buffer_path = 1
-" call deoplete#custom#set('_', 'matchers', ['matcher_head'])
-" call deoplete#custom#set('_', 'sorters', ['sorter_rank'])
-" call deoplete#custom#set('_', 'converters', [
-            " \ 'converter_remove_overlap',
-            " \ 'converter_truncate_abbr',
-            " \ 'converter_truncate_menu',
-            " \ 'converter_auto_delimeter',
-            " \ 'converter_auto_paren'])
 call deoplete#custom#set('_', 'disabled_syntaxes', ['Comment', 'String'])
 
 " deoplete-jedi
@@ -403,22 +406,21 @@ imap <C-s> <Plug>(neosnippet_expand_or_jump)
 let g:neosnippet#enable_snipmate_compatibility = 1
 
 " ale
-" let g:ale_sign_column_always = 1
-" let g:ale_lint_on_text_changed = 0
-let g:airline#extensions#ale#error_symbol = '•'
-let g:airline#extensions#ale#warning_symbol = '•'
-let g:ale_sign_error = '•'
-let g:ale_sign_warning = '•'
+let g:ale_enabled = 0
+let g:ale_set_loclist = 1
+let g:ale_set_quickfix = 0
+let g:ale_set_highlights = 0
+let g:ale_set_signs = 0
+let g:ale_echo_cursor = 1
+let g:ale_set_balloons = 0
 let g:ale_echo_msg_format = '[%linter%] %s'
 let g:ale_linters = {
-    \ 'python': ['flake8', 'mypy'],
+    \ 'python': ['flake8', 'pylint', 'mypy'],
     \ 'javascript': ['eslint'],
     \ 'typescript': ['tslint']
     \ }
 let g:ale_python_mypy_options = '--ignore-missing-imports'
 let g:ale_linter_aliases = {'html': ['html', 'javascript', 'css']}
-let g:ale_set_quickfix = 1
-let g:ale_enabled = 0
 
 " neoformat
 let g:neoformat_run_all_formatters = 1
@@ -433,7 +435,6 @@ let g:vim_json_syntax_conceal = 0
 " clever-f
 let g:clever_f_across_no_line = 1
 let g:clever_f_smart_case = 1
-" let g:clever_f_timeout_ms = 1500
 let g:clever_f_show_prompt = 1
 
 
@@ -441,9 +442,8 @@ let g:clever_f_show_prompt = 1
 augroup MyNvimBasic
     autocmd!
     " Speed up Syntax Highlighting
-    " :syntime on to start profile, :syntime report then
-    autocmd BufEnter * :syntax sync minlines=128
-    autocmd BufEnter * :syntax sync maxlines=256
+    " autocmd BufEnter * :syntax sync minlines=128
+    " autocmd BufEnter * :syntax sync maxlines=256
     " Go back to previous position of cursor
     autocmd BufReadPost *
         \ if line("'\"") > 0 && line("'\"") <= line("$") |
@@ -472,11 +472,9 @@ augroup MyPythonAutocmds
         \ tabstop=4
         \ shiftwidth=4
         \ softtabstop=4
-        " \ textwidth=79
         \ expandtab
         \ autoindent
         \ fileformat=unix
-    " Use ':Pyimport <import name>' to check out import
     autocmd FileType python nnoremap <buffer> <Localleader>g :call jedi#goto()<CR>
     autocmd FileType python nnoremap <buffer> <Localleader>a :call jedi#goto_assignments()<CR>
     autocmd FileType python nnoremap <buffer> <Localleader>d :call jedi#show_documentation()<CR>
@@ -493,7 +491,6 @@ augroup MyJavaScriptAutocmds
         \ tabstop=4
         \ shiftwidth=4
         \ softtabstop=4
-        " \ textwidth=79
         \ expandtab
         \ autoindent
         \ fileformat=unix
@@ -511,7 +508,6 @@ augroup MyTypeScriptAutocmds
         \ tabstop=4
         \ shiftwidth=4
         \ softtabstop=4
-        " \ textwidth=79
         \ expandtab
         \ autoindent
         \ fileformat=unix
@@ -557,9 +553,9 @@ function! ExecuteCommand(command)
     let @/ = _s
     call cursor(l, c)
 endfunction
-command! -nargs=0 StripTrailingWhitespace call ExecuteCommand("%s/\\s\\+$//e")
+command! -nargs=0 Stripws call ExecuteCommand("%s/\\s\\+$//e")
 
-command! -nargs=0 CopyFilename let @+ = expand("%")
+command! -nargs=0 Cpfilename let @+ = expand("%")
 
 function! ToggleNumber()
     if(&relativenumber == 1)
@@ -596,9 +592,9 @@ function! IndentConvert(line1, line2, what, cols)
     call histdel('search', -1)
     call setpos('.', savepos)
 endfunction
-command! -nargs=? -range=% Space2Tab call IndentConvert(<line1>,<line2>,0,<q-args>)
-command! -nargs=? -range=% Tab2Space call IndentConvert(<line1>,<line2>,1,<q-args>)
-command! -nargs=? -range=% RetabIndent call IndentConvert(<line1>,<line2>,&et,<q-args>)
+command! -nargs=? -range=% Space2tab call IndentConvert(<line1>,<line2>,0,<q-args>)
+command! -nargs=? -range=% Tab2space call IndentConvert(<line1>,<line2>,1,<q-args>)
+command! -nargs=? -range=% Retabindent call IndentConvert(<line1>,<line2>,&et,<q-args>)
 
 function! ToggleColorColumn()
     if &colorcolumn
@@ -607,20 +603,21 @@ function! ToggleColorColumn()
         setlocal colorcolumn=80
     endif
 endfunction
-command! -nargs=0 ToggleColorColumn call ToggleColorColumn()
+command! -nargs=0 Toggleline call ToggleColorColumn()
 
 
 " Mappings
 
-" Normal mode
 " Disable Ex mode
 nnoremap Q <Nop>
+
 " Disable macros recording
 nnoremap q <Nop>
-" Remap ; to :
+
 nnoremap ; :
 nnoremap n nzz
 nnoremap N Nzz
+
 " Navigate
 noremap k gk
 noremap j gj
@@ -628,39 +625,38 @@ noremap H ^
 noremap L g_
 noremap J 5j
 noremap K 5k
+
 " Splits
 nnoremap <C-h> <C-w>h
 nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
+
 " tmux-navigator
 if &term == 'screen-256color' || &term == 'tmux-256color'
     let g:tmux_navigator_no_mappings = 1
     let g:tmux_navigator_save_on_switch = 2
-    nnoremap <C-h> :TmuxNavigateLeft<cr>
-    nnoremap <C-j> :TmuxNavigateDown<cr>
-    nnoremap <C-k> :TmuxNavigateUp<cr>
-    nnoremap <C-l> :TmuxNavigateRight<cr>
+    nnoremap <C-h> :TmuxNavigateLeft<CR>
+    nnoremap <C-j> :TmuxNavigateDown<CR>
+    nnoremap <C-k> :TmuxNavigateUp<CR>
+    nnoremap <C-l> :TmuxNavigateRight<CR>
 endif
-" Folds
+
 nnoremap zr zr:echo &foldlevel<CR>
 nnoremap zm zm:echo &foldlevel<CR>
 nnoremap zR zR:echo &foldlevel<CR>
 nnoremap zM zM:echo &foldlevel<CR>
 nnoremap za za:echo &foldlevel<CR>
-" Clear search results
 nnoremap <Esc> :nohlsearch<CR>
 nnoremap / /\v
+vnoremap / /\v
 nnoremap ? ?\v
+vnoremap ? ?\v
 noremap Y y$
-" Select last paste in visual mode
-nnoremap <expr> gb '`[' . strpart(getregtype(), 0, 1) . '`]'
+
 " Redo
 nnoremap U <C-r>
 
-" Visual mode
-vnoremap / /\v
-vnoremap ? ?\v
 " Align blocks of text and keep them selected
 vnoremap < <gv
 vnoremap > >gv
@@ -674,14 +670,9 @@ inoremap <M-h> <Left>
 inoremap <M-l> <Right>
 inoremap <M-p> <C-Left>
 inoremap <M-n> <C-Right>
-" Escape insert, delete line, return to insert
-inoremap <C-d> <Esc>ddi
-" Escape insert, create new line, edit it
-inoremap <C-o> <Esc>o
-" Go to end of the line
 inoremap <C-e> <Esc>A
-" Smash escape
 inoremap jk <Esc>
+
 " Navigate in popup
 inoremap <expr> <C-j>   pumvisible() ? "\<C-n>" : "\<C-j>"
 inoremap <expr> <C-k>   pumvisible() ? "\<C-p>" : "\<C-k>"
@@ -692,40 +683,27 @@ inoremap <expr> <BS>    deoplete#smart_close_popup() . "\<C-h>"
 " Terminal normal mode
 tnoremap <Esc> <C-\><C-n><Esc><CR>
 
-" Space-like bindings
 " Toggle
 nnoremap <Leader>tw :set list!<CR>
 nnoremap <Leader>tn :call ToggleNumber()<CR>
-" Spellcheck: [s, ]s - previous and next error
-nnoremap <Leader>ts :setlocal spell! spelllang=en_us<CR>
 nnoremap <Leader>tk :terminal<CR>
 nnoremap <Leader>ti :IndentLinesToggle<CR>
 nnoremap <Leader>td :call deoplete#toggle()<CR>
 nnoremap <Leader>th :VimCurrentWordToggle<CR>
 nnoremap <Leader>tc :set cursorline!<CR>
-nnoremap <Leader>tl :ToggleColorColumn<CR>
+nnoremap <Leader>tl :Toggleline<CR>
 nnoremap <Leader>tt :TagbarToggle<CR>
-nnoremap <leader>tu :UndotreeToggle<CR>
 
 " Edit
-nnoremap <Leader>ed :StripTrailingWhitespace<CR>
-" Search and replace
+nnoremap <Leader>ed :Stripws<CR>
 nnoremap <Leader>er :%s//g<Left><Left>
-" Search project-wide
-" :copen - show all found
-" :close - close found
-" :cn, :cp - next, previous
-" Registers
-" :reg [reg-name] - show register content
-" Undo all
 nnoremap <Leader>eu :edit!<CR>
 
 " File
 nnoremap <Leader>f :Files<CR>
 " Sudo save
-" nnoremap <Leader>F :update !sudo tee % >/dev/null<CR>
-nnoremap <Leader>F :w !sudo tee %<CR>
-" nnoremap <Leader>m :Vexplore<CR>
+" nnoremap <Leader>s :update !sudo tee % >/dev/null<CR>
+nnoremap <Leader>s :w !sudo tee %<CR>
 nnoremap <Leader>m :Vaffle<CR>
 nnoremap <Leader>h :Vaffle %:p:h<CR>
 
@@ -737,17 +715,8 @@ nnoremap <Leader>d :bd<CR>
 nnoremap <Leader>bf :bfirst<CR>
 nnoremap <Leader>bl :blast<CR>
 
-" Window
-nnoremap <Leader>s :split<CR>
-nnoremap <Leader>v :vsplit<CR>
-nnoremap <Leader>q :close<CR>
-" :vnew<CR> - new vertical split
-" <C-w>r/R - rotate
-" <C-w>o - maximize window
-" <C-w>c - close window
-" <C-w>_,|,+,-,=,<,> - resize
+" Windows and tabs
 nnoremap <Leader>w :Windows<CR>
-" Tab
 nnoremap <Leader>we :tabe<CR>
 nnoremap <leader>wn :tabn<CR>
 nnoremap <Leader>wp :tabp<CR>
@@ -773,5 +742,5 @@ nmap <Leader>? <Plug>(fzf-maps-n)
 
 
 " Initial settings
-set nolist
+set list
 set nospell
