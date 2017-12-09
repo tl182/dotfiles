@@ -22,15 +22,13 @@ if dein#load_state(s:bundle_dir)
 
     " Appearance, UI
     call dein#add('morhetz/gruvbox')
-    call dein#add('mhinz/vim-startify')
-    call dein#add('vim-airline/vim-airline')
-    call dein#add('ryanoasis/vim-devicons')
+    call dein#add('itchyny/lightline.vim')
+    call dein#add('mgee/lightline-bufferline')
     call dein#add('Yggdroot/indentLine')
     call dein#add('dominikduda/vim_current_word')
 
     " Editing
     call dein#add('matze/vim-move')
-    call dein#add('vim-scripts/DoxygenToolkit.vim')
     call dein#add('scrooloose/nerdcommenter')
     call dein#add('majutsushi/tagbar')
     call dein#add('jiangmiao/auto-pairs')
@@ -217,7 +215,7 @@ set relativenumber                  " Relative numbering
 set report=0                        " Always report changed lines
 set showfulltag                     " Show tag and info in insert-mode completion
 set showmatch                       " Highlight matched bracket
-"set showmode                        " Show current mode
+" set showmode                        " Show current mode
 set showtabline=2                   " Always show tabline
 set smartcase                       " Smart case search if there is upper
 set spell                           " Enable spell check
@@ -252,46 +250,13 @@ let g:netrw_winsize = -30
 let g:netrw_list_hide = &wildignore
 let g:netrw_sort_sequence = '[\/]$,*'
 
-" airline
-let g:airline_theme = 'gruvbox'
-let g:airline_powerline_fonts = 1
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#show_splits = 1
-let g:airline#extensions#tabline#show_buffers = 1
-" let g:airline#extensions#tabline#buffer_idx_mode = 1
-let g:airline#extensions#tabline#buffer_nr_show = 1
-let g:airline#extensions#tabline#buffer_nr_format = '%s:'
-" let g:airline#extensions#tabline#fnamemod = ':t'
-let g:airline#extensions#tabline#fnamecollapse = 1
-let g:airline#extensions#tabline#fnametruncate = 0
-let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
-let g:airline#extensions#default#section_truncate_width = {
-    \ 'b': 79,
-    \ 'x': 60,
-    \ 'y': 88,
-    \ 'z': 45,
-    \ 'warning': 80,
-    \ 'error': 80,
-    \ }
-let g:airline#extensions#default#layout = [
-    \ [ 'a', 'error', 'warning', 'b', 'c' ],
-    \ [ 'x', 'y', 'z' ]
-    \ ]
-
-" Webdevicons
-let g:webdevicons_enable_airline_tabline=1
-let g:webdevicons_enable_airline_statusline=1
-let entry_format = "'   ['. index .']'. repeat(' ', (3 - strlen(index)))"
-if exists('*WebDevIconsGetFileTypeSymbol')
-    let entry_format .= ". WebDevIconsGetFileTypeSymbol(entry_path) .' '.  entry_path"
-else
-    let entry_format .= '. entry_path'
-endif
-
-" Startify
-let g:startify_session_dir = '~/.local/share/nvim/sessions'
-let g:startify_bookmarks = ['~', '~/Desktop']
-let g:startify_change_to_vcs_root = 1
+" lightline
+let g:lightline = {}
+let g:lightline.colorscheme = 'gruvbox'
+let g:lightline.tabline = {'left': [['buffers']], 'right': [['']]}
+let g:lightline.component_expand = {'buffers': 'lightline#bufferline#buffers'}
+let g:lightline.component_type = {'buffers': 'tabsel'}
+let g:lightline#bufferline#show_number = 1
 
 " indentLine
 let g:indentLine_char='│'
@@ -309,13 +274,6 @@ let g:AutoPairsShortcutFastWrap = ""
 let g:AutoPairsShortcutJump = ""
 let g:AutoPairsShortcutBackInsert = ""
 let g:AutoPairsFlyMode = 0
-
-" DoxygenToolkit
-" :DoxLic - licence stub
-" :DoxAuthor - author stub
-" :Dox - class/function stub
-" :DoxBlock - block stub
-" :DoxUndoc(DEBUG) - undoc
 
 " NERDCommenter
 let g:NERDSpaceDelims = 1
@@ -661,6 +619,8 @@ nnoremap Q <Nop>
 nnoremap q <Nop>
 " Remap ; to :
 nnoremap ; :
+nnoremap n nzz
+nnoremap N Nzz
 " Navigate
 noremap k gk
 noremap j gj
