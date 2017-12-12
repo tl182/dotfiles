@@ -31,6 +31,10 @@ scriptencoding utf-8
 " Spellcheck:
 " :setlocal spell! spelllang=en_us<CR> - toggle
 " [s, ]s - previous and next error
+"
+" " Explicitly state paths for Pyenv
+let g:python_host_prog = '/home/asleap/.pyenv/versions/neovim2/bin/python'
+let g:python3_host_prog = '/home/asleap/.pyenv/versions/neovim3/bin/python'
 
 
 if (!isdirectory(expand("$HOME/.config/nvim/bundle/repos/github.com/Shougo/dein.vim")))
@@ -406,7 +410,7 @@ imap <C-s> <Plug>(neosnippet_expand_or_jump)
 let g:neosnippet#enable_snipmate_compatibility = 1
 
 " ale
-let g:ale_enabled = 0
+let g:ale_enabled = 1
 let g:ale_set_loclist = 1
 let g:ale_set_quickfix = 0
 let g:ale_set_highlights = 0
@@ -729,7 +733,7 @@ nnoremap <Leader>lt :ALEToggle<CR>
 nnoremap <Leader>ld :ALEDetail<CR>
 
 " Git
-nnoremap <Leader>gm :Magit<CR>
+nnoremap <Leader>gm :MagitOnly<CR>
 nnoremap <Leader>gd :Gdiff<CR>
 nnoremap <Leader>gs :Gstatus<CR>
 nnoremap <Leader>gb :Gblame<CR>
