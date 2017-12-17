@@ -90,7 +90,7 @@ if dein#load_state(s:bundle_dir)
     call dein#add('Glench/Vim-Jinja2-Syntax')
 
     " Go
-    call dein#add('zchee/deoplete-go', {'build': 'make'})
+    " call dein#add('zchee/deoplete-go', {'build': 'make'})
 
     " JavaScript
     call dein#add('othree/yajs.vim')
@@ -371,7 +371,7 @@ let g:deoplete#sources = {}
 let g:deoplete#sources._ = []
 let g:deoplete#sources.vim = ['vim', 'tag', 'neosnippet']
 let g:deoplete#sources.python = ['jedi', 'tag', 'neosnippet']
-let g:deoplete#sources.go = ['go', 'tag', 'neosnippet']
+" let g:deoplete#sources.go = ['go', 'tag', 'neosnippet']
 let g:deoplete#sources.javascript = ['tern', 'tag', 'neosnippet']
 let g:deoplete#sources.typescript = ['typescript', 'tag', 'neosnippet']
 call deoplete#custom#set('_', 'disabled_syntaxes', ['Comment', 'String'])
@@ -392,7 +392,7 @@ let g:jedi#popup_select_first = 0
 let g:jedi#auto_close_doc = 1
 
 " deoplete-go
-let g:deoplete#sources#go#pointer = 1
+" let g:deoplete#sources#go#pointer = 1
 
 " deoplete-ternjs
 let g:deoplete#sources#ternjs#types = 1
