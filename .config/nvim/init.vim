@@ -31,16 +31,13 @@ scriptencoding utf-8
 " Spellcheck:
 " :setlocal spell! spelllang=en_us<CR> - toggle
 " [s, ]s - previous and next error
-"
-" " Explicitly state paths for Pyenv
+
+
+set nocompatible
+" Explicitly state paths for Pyenv
 let g:python_host_prog = '/home/asleap/.pyenv/shims/python2'
 let g:python3_host_prog = '/home/asleap/.pyenv/shims/python3'
 
-
-if (!isdirectory(expand("$HOME/.config/nvim/bundle/repos/github.com/Shougo/dein.vim")))
-    call system(expand("mkdir -p $HOME/.config/nvim/bundle/repos/github.com"))
-    call system(expand("git clone https://github.com/Shougo/dein.vim $HOME/.config/nvim/bundle/repos/github.com/Shougo/dein.vim"))
-endif
 
 set runtimepath+=~/.config/nvim/bundle/repos/github.com/Shougo/dein.vim
 set runtimepath+=~/.fzf
@@ -118,11 +115,6 @@ if dein#load_state(s:bundle_dir)
     " Git
     call dein#add('tpope/vim-fugitive')
     call dein#add('jreybert/vimagit')
-
-    if dein#check_install()
-        call dein#install()
-        let pluginsExist=1
-    endif
 
     call dein#end()
     call dein#save_state()
