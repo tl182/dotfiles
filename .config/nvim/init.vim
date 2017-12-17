@@ -33,8 +33,8 @@ scriptencoding utf-8
 " [s, ]s - previous and next error
 "
 " " Explicitly state paths for Pyenv
-" let g:python_host_prog = '/home/asleap/.pyenv/versions/neovim2/bin/python'
-" let g:python3_host_prog = '/home/asleap/.pyenv/versions/neovim3/bin/python'
+let g:python_host_prog = '/home/asleap/.pyenv/shims/python2'
+let g:python3_host_prog = '/home/asleap/.pyenv/shims/python3'
 
 
 if (!isdirectory(expand("$HOME/.config/nvim/bundle/repos/github.com/Shougo/dein.vim")))
