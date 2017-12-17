@@ -16,7 +16,9 @@ set --export VISUAL nvim
 alias vi 'nvim'
 alias vim 'nvim'
 alias vimdiff 'nvim -d'
-alias vimbigfile 'vim -n -u NONE -i NONE -N'
+
+# Add paths
+# set -gx PATH "~/.local/bin" $PATH
 
 # Set pyenv
 set -x PATH "/home/asleap/.pyenv/bin" $PATH

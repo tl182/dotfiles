@@ -33,8 +33,8 @@ scriptencoding utf-8
 " [s, ]s - previous and next error
 "
 " " Explicitly state paths for Pyenv
-let g:python_host_prog = '/home/asleap/.pyenv/versions/neovim2/bin/python'
-let g:python3_host_prog = '/home/asleap/.pyenv/versions/neovim3/bin/python'
+" let g:python_host_prog = '/home/asleap/.pyenv/versions/neovim2/bin/python'
+" let g:python3_host_prog = '/home/asleap/.pyenv/versions/neovim3/bin/python'
 
 
 if (!isdirectory(expand("$HOME/.config/nvim/bundle/repos/github.com/Shougo/dein.vim")))
@@ -43,6 +43,7 @@ if (!isdirectory(expand("$HOME/.config/nvim/bundle/repos/github.com/Shougo/dein.
 endif
 
 set runtimepath+=~/.config/nvim/bundle/repos/github.com/Shougo/dein.vim
+set runtimepath+=~/.fzf
 
 let s:bundle_dir = expand('~/.config/nvim/bundle')
 let s:plugin_dir = s:bundle_dir . '/repos/github.com'
@@ -65,7 +66,7 @@ if dein#load_state(s:bundle_dir)
     call dein#add('matze/vim-move')
     call dein#add('scrooloose/nerdcommenter')
     call dein#add('majutsushi/tagbar')
-    call dein#add('jiangmiao/auto-pairs')
+    " call dein#add('jiangmiao/auto-pairs')
     call dein#add('editorconfig/editorconfig-vim')
     call dein#add('wellle/targets.vim')
     call dein#add('rhysd/clever-f.vim')
@@ -110,7 +111,7 @@ if dein#load_state(s:bundle_dir)
     call dein#add('aliva/vim-fish')
 
     " File management
-    call dein#add('junegunn/fzf', { 'build': './install --all', 'merged': 0 })
+    " call dein#add('junegunn/fzf', { 'build': './install --all', 'merged': 0 })
     call dein#add('junegunn/fzf.vim', { 'depends': 'fzf' })
     call dein#add('cocopon/vaffle.vim')
 
@@ -313,11 +314,11 @@ highlight CurrentWord gui=underline cterm=underline
 highlight CurrentWordTwins gui=underline cterm=underline
 
 " AutoPairs
-let g:AutoPairsShortcutToggle = ""
-let g:AutoPairsShortcutFastWrap = ""
-let g:AutoPairsShortcutJump = ""
-let g:AutoPairsShortcutBackInsert = ""
-let g:AutoPairsFlyMode = 0
+" let g:AutoPairsShortcutToggle = ""
+" let g:AutoPairsShortcutFastWrap = ""
+" let g:AutoPairsShortcutJump = ""
+" let g:AutoPairsShortcutBackInsert = ""
+" let g:AutoPairsFlyMode = 0
 
 " NERDCommenter
 let g:NERDSpaceDelims = 1
@@ -668,18 +669,18 @@ vnoremap > >gv
 " Insert mode bindings
 inoremap <Home> <C-o>g<Home>
 inoremap <End> <C-o>g<End>
-inoremap <M-k> <Up>
-inoremap <M-j> <Down>
-inoremap <M-h> <Left>
-inoremap <M-l> <Right>
-inoremap <M-p> <C-Left>
-inoremap <M-n> <C-Right>
+inoremap <C-k> <Up>
+inoremap <C-j> <Down>
+inoremap <C-h> <Left>
+inoremap <C-l> <Right>
+inoremap <C-p> <C-Left>
+inoremap <C-n> <C-Right>
 inoremap <C-e> <Esc>A
 inoremap jk <Esc>
 
 " Navigate in popup
-inoremap <expr> <C-j>   pumvisible() ? "\<C-n>" : "\<C-j>"
-inoremap <expr> <C-k>   pumvisible() ? "\<C-p>" : "\<C-k>"
+inoremap <expr> <C-j>   pumvisible() ? "\<C-n>" : "\<Down>"
+inoremap <expr> <C-k>   pumvisible() ? "\<C-p>" : "\<Up>"
 inoremap <expr> <Esc>   pumvisible() ? "\<C-e>" : "\<Esc>"
 inoremap <expr> <CR>    pumvisible() ? "\<C-y>" : "\<CR>"
 inoremap <expr> <BS>    deoplete#smart_close_popup() . "\<C-h>"
