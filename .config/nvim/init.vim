@@ -33,92 +33,79 @@ scriptencoding utf-8
 " [s, ]s - previous and next error
 
 
-set nocompatible
 " Explicitly state paths for Pyenv
 let g:python_host_prog = '/home/asleap/.pyenv/shims/python2'
 let g:python3_host_prog = '/home/asleap/.pyenv/shims/python3'
 
-
-set runtimepath+=~/.config/nvim/bundle/repos/github.com/Shougo/dein.vim
+" Add already installed fzf to runtimepath
 set runtimepath+=~/.fzf
 
-let s:bundle_dir = expand('~/.config/nvim/bundle')
-let s:plugin_dir = s:bundle_dir . '/repos/github.com'
-
-if dein#load_state(s:bundle_dir)
-    call dein#begin(s:bundle_dir)
-
-    call dein#add(s:plugin_dir . '/Shougo/dein.vim')
+" Set up plugins
+call plug#begin('~/.local/share/nvim/plugged')
 
     " Appearance, UI
-    call dein#add('morhetz/gruvbox')
-    call dein#add('mhinz/vim-startify')
-    call dein#add('itchyny/lightline.vim')
-    call dein#add('mgee/lightline-bufferline')
-    call dein#add('maximbaz/lightline-trailing-whitespace')
-    call dein#add('Yggdroot/indentLine')
-    call dein#add('dominikduda/vim_current_word')
+    Plug 'morhetz/gruvbox'
+    Plug 'mhinz/vim-startify'
+    Plug 'itchyny/lightline.vim'
+    Plug 'mgee/lightline-bufferline'
+    Plug 'maximbaz/lightline-trailing-whitespace'
+    Plug 'Yggdroot/indentLine'
+    Plug 'dominikduda/vim_current_word'
 
     " Editing
-    call dein#add('matze/vim-move')
-    call dein#add('scrooloose/nerdcommenter')
-    call dein#add('majutsushi/tagbar')
-    " call dein#add('jiangmiao/auto-pairs')
-    call dein#add('editorconfig/editorconfig-vim')
-    call dein#add('wellle/targets.vim')
-    call dein#add('rhysd/clever-f.vim')
-    call dein#add('eugen0329/vim-esearch')
-    call dein#add('christoomey/vim-tmux-navigator')
+    Plug 'matze/vim-move'
+    Plug 'scrooloose/nerdcommenter'
+    Plug 'majutsushi/tagbar'
+    " Plug 'jiangmiao/auto-pairs'
+    Plug 'editorconfig/editorconfig-vim'
+    Plug 'wellle/targets.vim'
+    Plug 'rhysd/clever-f.vim'
+    Plug 'eugen0329/vim-esearch'
+    Plug 'christoomey/vim-tmux-navigator'
 
     " Autocomplition, snippets, linting, formatting
-    call dein#add('Shougo/context_filetype.vim')
-    call dein#add('Shougo/deoplete.nvim')
-    call dein#add('Shougo/neco-vim')
-    call dein#add('Shougo/echodoc.vim')
-    call dein#add('Shougo/neosnippet.vim')
-    call dein#add('Shougo/neosnippet-snippets')
-    call dein#add('w0rp/ale')
-    call dein#add('sbdchd/neoformat')
+    Plug 'Shougo/context_filetype.vim'
+    Plug 'Shougo/deoplete.nvim'
+    Plug 'Shougo/neco-vim'
+    Plug 'Shougo/echodoc.vim'
+    Plug 'Shougo/neosnippet.vim'
+    Plug 'Shougo/neosnippet-snippets'
+    Plug 'w0rp/ale'
+    Plug 'sbdchd/neoformat'
 
     " Python
-    call dein#add('zchee/deoplete-jedi')
-    call dein#add('davidhalter/jedi-vim')
-    call dein#add('Vimjas/vim-python-pep8-indent')
-    call dein#add('Glench/Vim-Jinja2-Syntax')
-
-    " Go
-    " call dein#add('zchee/deoplete-go', {'build': 'make'})
+    Plug 'zchee/deoplete-jedi'
+    " Plug 'davidhalter/jedi-vim'
+    Plug 'Vimjas/vim-python-pep8-indent'
+    Plug 'Glench/Vim-Jinja2-Syntax'
 
     " JavaScript
-    call dein#add('othree/yajs.vim')
-    call dein#add('carlitux/deoplete-ternjs')
-    " call dein#add('ternjs/tern_for_vim')
+    Plug 'othree/yajs.vim'
+    Plug 'carlitux/deoplete-ternjs'
+    " Plug 'ternjs/tern_for_vim'
 
     " TypeScript
-    call dein#add('HerringtonDarkholme/yats.vim')
-    call dein#add('mhartington/nvim-typescript')
+    Plug 'HerringtonDarkholme/yats.vim'
+    Plug 'mhartington/nvim-typescript'
 
     " Json
-    call dein#add('elzr/vim-json')
+    Plug 'elzr/vim-json'
 
     " Markdown
-    call dein#add('rhysd/vim-gfm-syntax')
+    Plug 'rhysd/vim-gfm-syntax'
 
     " Fish shell
-    call dein#add('aliva/vim-fish')
+    Plug 'aliva/vim-fish'
 
     " File management
-    " call dein#add('junegunn/fzf', { 'build': './install --all', 'merged': 0 })
-    call dein#add('junegunn/fzf.vim', { 'depends': 'fzf' })
-    call dein#add('cocopon/vaffle.vim')
+    Plug 'junegunn/fzf.vim'
+    Plug 'cocopon/vaffle.vim'
 
     " Git
-    call dein#add('tpope/vim-fugitive')
-    call dein#add('jreybert/vimagit')
+    Plug 'tpope/vim-fugitive'
+    Plug 'jreybert/vimagit'
 
-    call dein#end()
-    call dein#save_state()
-endif
+call plug#end()
 
 
 " Settings
@@ -373,15 +360,15 @@ let g:deoplete#sources#jedi#server_timeout = 20 " 10
 let g:deoplete#sources#jedi#enable_cache = 1 " 0
 
 " jedi-vim
-let g:jedi#auto_initialization = 0
-let g:jedi#auto_vim_configuration = 0
-let g:jedi#completions_enabled = 0
-let g:jedi#smart_auto_mappings = 0
-let g:jedi#use_tag_stack = 1
-let g:jedi#show_call_signatures = 0
-let g:jedi#popup_on_dot = 0
-let g:jedi#popup_select_first = 0
-let g:jedi#auto_close_doc = 1
+" let g:jedi#auto_initialization = 0
+" let g:jedi#auto_vim_configuration = 0
+" let g:jedi#completions_enabled = 0
+" let g:jedi#smart_auto_mappings = 0
+" let g:jedi#use_tag_stack = 1
+" let g:jedi#show_call_signatures = 0
+" let g:jedi#popup_on_dot = 0
+" let g:jedi#popup_select_first = 0
+" let g:jedi#auto_close_doc = 1
 
 " deoplete-go
 " let g:deoplete#sources#go#pointer = 1
@@ -472,13 +459,13 @@ augroup MyPythonAutocmds
         \ expandtab
         \ autoindent
         \ fileformat=unix
-    autocmd FileType python nnoremap <buffer> <Localleader>g :call jedi#goto()<CR>
-    autocmd FileType python nnoremap <buffer> <Localleader>a :call jedi#goto_assignments()<CR>
-    autocmd FileType python nnoremap <buffer> <Localleader>d :call jedi#show_documentation()<CR>
-    autocmd FileType python nnoremap <buffer> <Localleader>r :call jedi#rename()<CR>
-    autocmd FileType python nnoremap <buffer> <Localleader>u :call jedi#usages()<CR>
-    autocmd FileType python nnoremap <buffer> <Localleader>v2 :call jedi#force_py_version(2)
-    autocmd FileType python nnoremap <buffer> <Localleader>v3 :call jedi#force_py_version(3)
+    " autocmd FileType python nnoremap <buffer> <Localleader>g :call jedi#goto()<CR>
+    " autocmd FileType python nnoremap <buffer> <Localleader>a :call jedi#goto_assignments()<CR>
+    " autocmd FileType python nnoremap <buffer> <Localleader>d :call jedi#show_documentation()<CR>
+    " autocmd FileType python nnoremap <buffer> <Localleader>r :call jedi#rename()<CR>
+    " autocmd FileType python nnoremap <buffer> <Localleader>u :call jedi#usages()<CR>
+    " autocmd FileType python nnoremap <buffer> <Localleader>v2 :call jedi#force_py_version(2)
+    " autocmd FileType python nnoremap <buffer> <Localleader>v3 :call jedi#force_py_version(3)
 augroup END
 
 augroup MyJavaScriptAutocmds
