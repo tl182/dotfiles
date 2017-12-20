@@ -56,7 +56,7 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'matze/vim-move'
     Plug 'scrooloose/nerdcommenter'
     Plug 'majutsushi/tagbar'
-    " Plug 'jiangmiao/auto-pairs'
+    Plug 'jiangmiao/auto-pairs'
     Plug 'editorconfig/editorconfig-vim'
     Plug 'wellle/targets.vim'
     Plug 'rhysd/clever-f.vim'
@@ -293,11 +293,12 @@ highlight CurrentWord gui=underline cterm=underline
 highlight CurrentWordTwins gui=underline cterm=underline
 
 " AutoPairs
-" let g:AutoPairsShortcutToggle = ""
-" let g:AutoPairsShortcutFastWrap = ""
-" let g:AutoPairsShortcutJump = ""
-" let g:AutoPairsShortcutBackInsert = ""
-" let g:AutoPairsFlyMode = 0
+let g:AutoPairsShortcutToggle = ""
+let g:AutoPairsShortcutFastWrap = ""
+let g:AutoPairsShortcutJump = ""
+let g:AutoPairsShortcutBackInsert = ""
+let g:AutoPairsMapCh = 0
+let g:AutoPairsFlyMode = 0
 
 " NERDCommenter
 let g:NERDSpaceDelims = 1
@@ -353,11 +354,11 @@ let g:deoplete#sources.python = ['jedi', 'tag', 'neosnippet']
 " let g:deoplete#sources.go = ['go', 'tag', 'neosnippet']
 let g:deoplete#sources.javascript = ['tern', 'tag', 'neosnippet']
 let g:deoplete#sources.typescript = ['typescript', 'tag', 'neosnippet']
-call deoplete#custom#set('_', 'disabled_syntaxes', ['Comment', 'String'])
+" call deoplete#custom#set('_', 'disabled_syntaxes', ['Comment', 'String'])
 
 " deoplete-jedi
-let g:deoplete#sources#jedi#server_timeout = 20 " 10
-let g:deoplete#sources#jedi#enable_cache = 1 " 0
+" let g:deoplete#sources#jedi#server_timeout = 20 " 10
+" let g:deoplete#sources#jedi#enable_cache = 1 " 0
 
 " jedi-vim
 " let g:jedi#auto_initialization = 0
@@ -374,7 +375,7 @@ let g:deoplete#sources#jedi#enable_cache = 1 " 0
 " let g:deoplete#sources#go#pointer = 1
 
 " deoplete-ternjs
-let g:deoplete#sources#ternjs#types = 1
+" let g:deoplete#sources#ternjs#types = 1
 
 " tern (requires global node installation, not nvm)
 " let g:tern_map_keys = 0
@@ -655,6 +656,7 @@ inoremap <C-l> <Right>
 inoremap <C-p> <C-Left>
 inoremap <C-n> <C-Right>
 inoremap <C-e> <Esc>A
+inoremap <C-o> <Esc>o
 inoremap jk <Esc>
 
 " Navigate in popup
