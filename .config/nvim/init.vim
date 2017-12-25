@@ -354,11 +354,11 @@ let g:deoplete#sources.python = ['jedi', 'tag', 'neosnippet']
 " let g:deoplete#sources.go = ['go', 'tag', 'neosnippet']
 let g:deoplete#sources.javascript = ['tern', 'tag', 'neosnippet']
 let g:deoplete#sources.typescript = ['typescript', 'tag', 'neosnippet']
-" call deoplete#custom#set('_', 'disabled_syntaxes', ['Comment', 'String'])
+call deoplete#custom#set('_', 'disabled_syntaxes', ['Comment', 'String'])
 
 " deoplete-jedi
-" let g:deoplete#sources#jedi#server_timeout = 20 " 10
-" let g:deoplete#sources#jedi#enable_cache = 1 " 0
+let g:deoplete#sources#jedi#server_timeout = 20 " 10
+let g:deoplete#sources#jedi#enable_cache = 1 " 0
 
 " jedi-vim
 " let g:jedi#auto_initialization = 0
@@ -375,7 +375,7 @@ let g:deoplete#sources.typescript = ['typescript', 'tag', 'neosnippet']
 " let g:deoplete#sources#go#pointer = 1
 
 " deoplete-ternjs
-" let g:deoplete#sources#ternjs#types = 1
+let g:deoplete#sources#ternjs#types = 1
 
 " tern (requires global node installation, not nvm)
 " let g:tern_map_keys = 0
@@ -391,16 +391,16 @@ imap <C-s> <Plug>(neosnippet_expand_or_jump)
 let g:neosnippet#enable_snipmate_compatibility = 1
 
 " ale
-let g:ale_enabled = 1
+let g:ale_enabled = 0
 let g:ale_set_loclist = 1
 let g:ale_set_quickfix = 0
 let g:ale_set_highlights = 0
-let g:ale_set_signs = 0
+let g:ale_set_signs = 1
 let g:ale_echo_cursor = 1
 let g:ale_set_balloons = 0
 let g:ale_echo_msg_format = '[%linter%] %s'
 let g:ale_linters = {
-    \ 'python': ['flake8', 'pylint', 'mypy'],
+    \ 'python': ['flake8', 'mypy'],
     \ 'javascript': ['eslint'],
     \ 'typescript': ['tslint']
     \ }
@@ -686,7 +686,7 @@ nnoremap <Leader>er :%s//g<Left><Left>
 nnoremap <Leader>eu :edit!<CR>
 
 " File
-nnoremap <Leader>f :Files<CR>
+nnoremap <Leader>f :GFiles<CR>
 " Sudo save
 " nnoremap <Leader>s :update !sudo tee % >/dev/null<CR>
 nnoremap <Leader>s :w !sudo tee %<CR>
