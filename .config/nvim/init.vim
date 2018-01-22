@@ -33,15 +33,14 @@ scriptencoding utf-8
 " [s, ]s - previous and next error
 
 
-" Explicitly state paths for Pyenv
-let g:python_host_prog = '/home/asleap/.pyenv/shims/python2'
-let g:python3_host_prog = '/home/asleap/.pyenv/shims/python3'
-
 " Add already installed fzf to runtimepath
 set runtimepath+=~/.fzf
 
 " Set up plugins
 call plug#begin('~/.local/share/nvim/plugged')
+
+    " Service
+    Plug 'roxma/python-support.nvim'
 
     " Appearance, UI
     Plug 'morhetz/gruvbox'
@@ -64,29 +63,28 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'christoomey/vim-tmux-navigator'
 
     " Autocomplition, snippets, linting, formatting
-    Plug 'Shougo/context_filetype.vim'
-    Plug 'Shougo/deoplete.nvim'
-    Plug 'Shougo/neco-vim'
-    Plug 'Shougo/echodoc.vim'
+    Plug 'roxma/nvim-completion-manager'
     Plug 'Shougo/neosnippet.vim'
     Plug 'Shougo/neosnippet-snippets'
     Plug 'w0rp/ale'
     Plug 'sbdchd/neoformat'
 
     " Python
-    Plug 'zchee/deoplete-jedi'
-    " Plug 'davidhalter/jedi-vim'
+    Plug 'davidhalter/jedi-vim'
     Plug 'Vimjas/vim-python-pep8-indent'
     Plug 'Glench/Vim-Jinja2-Syntax'
 
     " JavaScript
-    Plug 'othree/yajs.vim'
-    Plug 'carlitux/deoplete-ternjs'
-    " Plug 'ternjs/tern_for_vim'
+    Plug 'roxma/nvim-cm-tern',  {'do': 'npm install'}
+    Plug 'ternjs/tern_for_vim'
+    " Plug 'othree/yajs.vim'
+    Plug 'pangloss/vim-javascript'
+    Plug 'maxmellon/vim-jsx-pretty'
 
     " TypeScript
-    Plug 'HerringtonDarkholme/yats.vim'
     Plug 'mhartington/nvim-typescript'
+    " Plug 'HerringtonDarkholme/yats.vim'
+    Plug 'leafgarland/typescript-vim'
 
     " Json
     Plug 'elzr/vim-json'
@@ -265,6 +263,24 @@ let g:startify_session_dir = '~/.local/share/nvim/sessions'
 let g:startify_bookmarks = ['~', '~/Desktop']
 let g:startify_change_to_vcs_root = 1
 
+" python-support
+let g:python_support_python3_requirements = add(get(g:,'python_support_python3_requirements',[]), 'jedi')
+let g:python_support_python3_requirements = add(get(g:,'python_support_python3_requirements',[]), 'flake8')
+let g:python_support_python3_requirements = add(get(g:,'python_support_python3_requirements',[]), 'pylint')
+let g:python_support_python3_requirements = add(get(g:,'python_support_python3_requirements',[]), 'mypy')
+let g:python_support_python3_requirements = add(get(g:,'python_support_python3_requirements',[]), 'autopep8')
+let g:python_support_python3_requirements = add(get(g:,'python_support_python3_requirements',[]), 'isort')
+let g:python_support_python3_requirements = add(get(g:,'python_support_python3_requirements',[]), 'psutil')
+let g:python_support_python3_requirements = add(get(g:,'python_support_python3_requirements',[]), 'setproctitle')
+let g:python_support_python3_requirements = add(get(g:,'python_support_python3_requirements',[]), 'mistune')
+
+" nvim-completion-manager (ncm)
+set shortmess+=c
+
+" neosnippet
+imap <C-s> <Plug>(neosnippet_expand_or_jump)
+" let g:neosnippet#enable_snipmate_compatibility = 1
+
 " lightline
 let g:lightline = {}
 let g:lightline.colorscheme = 'gruvbox'
@@ -339,56 +355,22 @@ call esearch#map('<Leader>es', 'esearch')
 " Start esearch autofilled with a word under the cursor
 call esearch#map('<Leader>ew', 'esearch-word-under-cursor')
 
-" deoplete
-let g:deoplete#enable_at_startup = 1
-let g:deoplete#enable_camel_case = 1
-" let g:deoplete#enable_refresh_always = 1
-let g:deoplete#max_abbr_width = 80 " -1
-let g:deoplete#max_menu_width = 40 " -1
-let g:deoplete#auto_complete_delay = 100
-let g:deoplete#sources = {}
-" let g:deoplete#sources._ = ['around', 'member', 'tag']
-let g:deoplete#sources._ = []
-let g:deoplete#sources.vim = ['vim', 'tag', 'neosnippet']
-let g:deoplete#sources.python = ['jedi', 'tag', 'neosnippet']
-" let g:deoplete#sources.go = ['go', 'tag', 'neosnippet']
-let g:deoplete#sources.javascript = ['tern', 'tag', 'neosnippet']
-let g:deoplete#sources.typescript = ['typescript', 'tag', 'neosnippet']
-call deoplete#custom#set('_', 'disabled_syntaxes', ['Comment', 'String'])
-
-" deoplete-jedi
-let g:deoplete#sources#jedi#server_timeout = 20 " 10
-let g:deoplete#sources#jedi#enable_cache = 1 " 0
-
 " jedi-vim
-" let g:jedi#auto_initialization = 0
-" let g:jedi#auto_vim_configuration = 0
-" let g:jedi#completions_enabled = 0
-" let g:jedi#smart_auto_mappings = 0
-" let g:jedi#use_tag_stack = 1
-" let g:jedi#show_call_signatures = 0
-" let g:jedi#popup_on_dot = 0
-" let g:jedi#popup_select_first = 0
-" let g:jedi#auto_close_doc = 1
-
-" deoplete-go
-" let g:deoplete#sources#go#pointer = 1
-
-" deoplete-ternjs
-let g:deoplete#sources#ternjs#types = 1
+let g:jedi#auto_initialization = 0
+let g:jedi#auto_vim_configuration = 0
+let g:jedi#completions_enabled = 0
+let g:jedi#smart_auto_mappings = 0
+let g:jedi#use_tag_stack = 1
+let g:jedi#show_call_signatures = 0
+let g:jedi#popup_on_dot = 0
+let g:jedi#popup_select_first = 0
+let g:jedi#auto_close_doc = 1
 
 " tern (requires global node installation, not nvm)
 " let g:tern_map_keys = 0
 " let g:tern_show_argument_hints = 'on_move'
 " let g:tern_show_signature_in_pum = 0
 " let g:tern_show_loc_after_rename = 1
-
-" echodoc
-let g:echodoc#enable_at_startup = 1
-
-" neosnippet
-imap <C-s> <Plug>(neosnippet_expand_or_jump)
-let g:neosnippet#enable_snipmate_compatibility = 1
 
 " ale
 let g:ale_enabled = 0
@@ -460,13 +442,13 @@ augroup MyPythonAutocmds
         \ expandtab
         \ autoindent
         \ fileformat=unix
-    " autocmd FileType python nnoremap <buffer> <Localleader>g :call jedi#goto()<CR>
-    " autocmd FileType python nnoremap <buffer> <Localleader>a :call jedi#goto_assignments()<CR>
-    " autocmd FileType python nnoremap <buffer> <Localleader>d :call jedi#show_documentation()<CR>
-    " autocmd FileType python nnoremap <buffer> <Localleader>r :call jedi#rename()<CR>
-    " autocmd FileType python nnoremap <buffer> <Localleader>u :call jedi#usages()<CR>
-    " autocmd FileType python nnoremap <buffer> <Localleader>v2 :call jedi#force_py_version(2)
-    " autocmd FileType python nnoremap <buffer> <Localleader>v3 :call jedi#force_py_version(3)
+    autocmd FileType python nnoremap <buffer> <Localleader>g :call jedi#goto()<CR>
+    autocmd FileType python nnoremap <buffer> <Localleader>a :call jedi#goto_assignments()<CR>
+    autocmd FileType python nnoremap <buffer> <Localleader>d :call jedi#show_documentation()<CR>
+    autocmd FileType python nnoremap <buffer> <Localleader>r :call jedi#rename()<CR>
+    autocmd FileType python nnoremap <buffer> <Localleader>u :call jedi#usages()<CR>
+    autocmd FileType python nnoremap <buffer> <Localleader>v2 :call jedi#force_py_version(2)
+    autocmd FileType python nnoremap <buffer> <Localleader>v3 :call jedi#force_py_version(3)
 augroup END
 
 augroup MyJavaScriptAutocmds
@@ -479,11 +461,11 @@ augroup MyJavaScriptAutocmds
         \ expandtab
         \ autoindent
         \ fileformat=unix
-    " autocmd FileType javascript nnoremap <buffer> <Localleader>d :TernDoc<CR>
-    " autocmd FileType javascript nnoremap <buffer> <Localleader>t :TernType<CR>
-    " autocmd FileType javascript nnoremap <buffer> <Localleader>g :TernDef<CR>
-    " autocmd FileType javascript nnoremap <buffer> <Localleader>a :TernRefs<CR>
-    " autocmd FileType javascript nnoremap <buffer> <Localleader>r :TernRename<CR>
+    autocmd FileType javascript nnoremap <buffer> <Localleader>d :TernDoc<CR>
+    autocmd FileType javascript nnoremap <buffer> <Localleader>t :TernType<CR>
+    autocmd FileType javascript nnoremap <buffer> <Localleader>g :TernDef<CR>
+    autocmd FileType javascript nnoremap <buffer> <Localleader>a :TernRefs<CR>
+    autocmd FileType javascript nnoremap <buffer> <Localleader>r :TernRename<CR>
 augroup END
 
 augroup MyTypeScriptAutocmds
@@ -664,7 +646,6 @@ inoremap <expr> <C-j>   pumvisible() ? "\<C-n>" : "\<Down>"
 inoremap <expr> <C-k>   pumvisible() ? "\<C-p>" : "\<Up>"
 inoremap <expr> <Esc>   pumvisible() ? "\<C-e>" : "\<Esc>"
 inoremap <expr> <CR>    pumvisible() ? "\<C-y>" : "\<CR>"
-inoremap <expr> <BS>    deoplete#smart_close_popup() . "\<C-h>"
 
 " Terminal normal mode
 tnoremap <Esc> <C-\><C-n><Esc><CR>
@@ -674,7 +655,6 @@ nnoremap <Leader>tw :set list!<CR>
 nnoremap <Leader>tn :call ToggleNumber()<CR>
 nnoremap <Leader>tk :terminal<CR>
 nnoremap <Leader>ti :IndentLinesToggle<CR>
-nnoremap <Leader>td :call deoplete#toggle()<CR>
 nnoremap <Leader>th :VimCurrentWordToggle<CR>
 nnoremap <Leader>tc :set cursorline!<CR>
 nnoremap <Leader>tl :Toggleline<CR>
