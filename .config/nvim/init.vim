@@ -50,6 +50,7 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'maximbaz/lightline-trailing-whitespace'
     Plug 'Yggdroot/indentLine'
     Plug 'dominikduda/vim_current_word'
+    Plug 'google/vim-searchindex'
 
     " Editing
     Plug 'matze/vim-move'
@@ -455,9 +456,9 @@ augroup MyJavaScriptAutocmds
     autocmd!
     autocmd FileType javascript setlocal
         \ foldmethod=indent
-        \ tabstop=4
-        \ shiftwidth=4
-        \ softtabstop=4
+        \ tabstop=2
+        \ shiftwidth=2
+        \ softtabstop=2
         \ expandtab
         \ autoindent
         \ fileformat=unix
@@ -472,9 +473,9 @@ augroup MyTypeScriptAutocmds
     autocmd!
     autocmd FileType typescript setlocal
         \ foldmethod=indent
-        \ tabstop=4
-        \ shiftwidth=4
-        \ softtabstop=4
+        \ tabstop=2
+        \ shiftwidth=2
+        \ softtabstop=2
         \ expandtab
         \ autoindent
         \ fileformat=unix
@@ -501,6 +502,14 @@ augroup MyTextFileAutocmds
         \ autoindent
         \ fileformat=unix
     autocmd FileType json setlocal
+        \ foldmethod=indent
+        \ tabstop=2
+        \ shiftwidth=2
+        \ softtabstop=2
+        \ expandtab
+        \ autoindent
+        \ fileformat=unix
+    autocmd FileType html setlocal
         \ foldmethod=indent
         \ tabstop=2
         \ shiftwidth=2
