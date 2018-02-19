@@ -456,9 +456,9 @@ augroup MyJavaScriptAutocmds
     autocmd!
     autocmd FileType javascript setlocal
         \ foldmethod=indent
-        \ tabstop=2
-        \ shiftwidth=2
-        \ softtabstop=2
+        \ tabstop=4
+        \ shiftwidth=4
+        \ softtabstop=4
         \ expandtab
         \ autoindent
         \ fileformat=unix
@@ -473,9 +473,9 @@ augroup MyTypeScriptAutocmds
     autocmd!
     autocmd FileType typescript setlocal
         \ foldmethod=indent
-        \ tabstop=2
-        \ shiftwidth=2
-        \ softtabstop=2
+        \ tabstop=4
+        \ shiftwidth=4
+        \ softtabstop=4
         \ expandtab
         \ autoindent
         \ fileformat=unix
@@ -495,25 +495,25 @@ augroup MyTextFileAutocmds
     autocmd!
     autocmd FileType yaml setlocal
         \ foldmethod=indent
-        \ tabstop=2
-        \ shiftwidth=2
-        \ softtabstop=2
+        \ tabstop=4
+        \ shiftwidth=4
+        \ softtabstop=4
         \ expandtab
         \ autoindent
         \ fileformat=unix
     autocmd FileType json setlocal
         \ foldmethod=indent
-        \ tabstop=2
-        \ shiftwidth=2
-        \ softtabstop=2
+        \ tabstop=4
+        \ shiftwidth=4
+        \ softtabstop=4
         \ expandtab
         \ autoindent
         \ fileformat=unix
     autocmd FileType html setlocal
         \ foldmethod=indent
-        \ tabstop=2
-        \ shiftwidth=2
-        \ softtabstop=2
+        \ tabstop=4
+        \ shiftwidth=4
+        \ softtabstop=4
         \ expandtab
         \ autoindent
         \ fileformat=unix
