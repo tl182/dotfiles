@@ -584,8 +584,9 @@ command! -nargs=0 Toggleline call ToggleColorColumn()
 
 " Mappings
 
-" Disable Ex mode
-nnoremap Q <Nop>
+" Map Ex mode key to keywordpgr
+" use: git log | vim -R -
+nnoremap Q K
 
 " Disable macros recording
 nnoremap q <Nop>
