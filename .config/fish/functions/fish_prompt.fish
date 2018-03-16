@@ -1,39 +1,45 @@
-function fish_prompt
-  # Cache exit status
-  set -l last_status $status
+function fish_prompt --description 'Write out the prompt'
+	# Set colors
+	set -l normal (set_color normal)
+	set -l usercolor (set_color cyan)
+	set -l hostcolor (set_color yellow)
+	set -l red (set_color red)
 
-  # Just calculate these once, to save a few cycles when displaying the prompt
-  if not set -q __fish_prompt_hostname
-    set -g __fish_prompt_hostname (hostname|cut -d . -f 1)
-  end
-  if not set -q __fish_prompt_char
-    switch (id -u)
-      case 0
-        set -g __fish_prompt_char \#
-      case '*'
-        set -g __fish_prompt_char \$
-    end
-  end
+	# Color prompot red if last command failed
+	set -l promptcolor $normal
+	if [ $status -ne 0 ]
+		set promptcolor $red
+	end
 
-  # Setup colors
-  set -l normal (set_color normal)
-  set -l cyan (set_color cyan)
-  set -l yellow (set_color yellow)
-  set -l bgreen (set_color -o green)
-  set -l red (set_color red)
 
-  # Color prompt char red for non-zero exit status
-  set -l pcolor $normal
-  if [ $last_status -ne 0 ]
-    set pcolor $red
-  end
+	# Just calculate this once, to save a few cycles when displaying the prompt
+	if not set -q __fish_prompt_hostname
+		set -g __fish_prompt_hostname (hostname|cut -d . -f 1)
+	end
 
-  # Top
-  echo -n $cyan$USER$normal@$yellow$__fish_prompt_hostname$normal: $bgreen(prompt_pwd)$normal
-  __fish_git_prompt
+	# Set appropriate prompt char and cwd color
+	set -l suffix
+	set -l color_cwd
+	switch $USER
+		case root toor
+			if set -q fish_color_cwd_root
+				set color_cwd $fish_color_cwd_root
+			else
+				set color_cwd $fish_color_cwd
+			end
+			set suffix '#'
+		case '*'
+			set color_cwd $fish_color_cwd
+			set suffix '$'
+	end
 
-  echo
+	# First line, adds newline
+	echo -s "$usercolor$USER" \
+		"$normal@" \
+		"$hostcolor$__fish_prompt_hostname" "$normal: " \
+		(set_color $color_cwd) (prompt_pwd) \
+		"$normal" (__fish_git_prompt)
 
-  # Bottom
-  echo -n $pcolor$__fish_prompt_char $normal
+	# Second line
+	echo -n -s "$promptcolor$suffix " "$normal"
 end
