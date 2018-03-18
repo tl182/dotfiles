@@ -26,3 +26,6 @@ set -x PYENV_ROOT "/home/asleap/.pyenv"
 set -x PATH "/home/asleap/.pyenv/bin" $PATH
 status --is-interactive; and . (pyenv init -|psub)
 status --is-interactive; and . (pyenv virtualenv-init -|psub)
+
+# Setup direnv
+eval (direnv hook fish)

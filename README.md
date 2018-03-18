@@ -4,12 +4,7 @@
     - ag
     - fzf
     - pyenv
-    - nvm
-    - gvm
+    - pipenv
+    - pipsi
+    - direnv
     - neovim
-
-#### NPM packages:
-    - tslint
-    - eslint
-    - prettier
-    - tern
