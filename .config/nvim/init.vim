@@ -246,6 +246,7 @@ let g:gruvbox_italic=1
 let g:gruvbox_underline=1
 let g:gruvbox_undercurl=1
 let g:gruvbox_contrast_dark='medium'
+let g:gruvbox_contrast_light='medium'
 let g:gruvbox_impoved_strings=1
 let g:gruvbox_improved_warnings=1
 set background=dark
@@ -591,7 +592,7 @@ nnoremap Q K
 " Disable macros recording
 nnoremap q <Nop>
 
-nnoremap ; :
+" nnoremap ; :
 nnoremap n nzz
 nnoremap N Nzz
 
