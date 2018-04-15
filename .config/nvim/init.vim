@@ -41,6 +41,8 @@ call plug#begin('~/.local/share/nvim/plugged')
 
     " Service
     Plug 'roxma/python-support.nvim'
+    Plug 'vimlab/split-term.vim'
+    Plug 'djoshea/vim-autoread'
 
     " Appearance, UI
     Plug 'morhetz/gruvbox'
@@ -76,7 +78,7 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'Glench/Vim-Jinja2-Syntax'
 
     " JavaScript
-    Plug 'roxma/nvim-cm-tern',  {'do': 'npm install'}
+    Plug 'roxma/nvim-cm-tern',  { 'do': 'npm install' }
     Plug 'ternjs/tern_for_vim'
     " Plug 'othree/yajs.vim'
     Plug 'pangloss/vim-javascript'
@@ -97,6 +99,7 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'aliva/vim-fish'
 
     " File management
+    Plug 'junegunn/fzf', { 'do': './install --bin' }
     Plug 'junegunn/fzf.vim'
     Plug 'cocopon/vaffle.vim'
 
@@ -275,6 +278,12 @@ let g:python_support_python3_requirements = add(get(g:,'python_support_python3_r
 let g:python_support_python3_requirements = add(get(g:,'python_support_python3_requirements',[]), 'psutil')
 let g:python_support_python3_requirements = add(get(g:,'python_support_python3_requirements',[]), 'setproctitle')
 let g:python_support_python3_requirements = add(get(g:,'python_support_python3_requirements',[]), 'mistune')
+
+" split-term
+let g:disable_key_mappings = 1
+
+" vaffle
+let g:vaffle_show_hidden_files = 1
 
 " nvim-completion-manager (ncm)
 set shortmess+=c
@@ -658,8 +667,10 @@ inoremap <expr> <C-k>   pumvisible() ? "\<C-p>" : "\<Up>"
 inoremap <expr> <Esc>   pumvisible() ? "\<C-e>" : "\<Esc>"
 inoremap <expr> <CR>    pumvisible() ? "\<C-y>" : "\<CR>"
 
-" Terminal normal mode
+" Terminal
+nnoremap <Leader>' :VTerm<CR>
 tnoremap <Esc> <C-\><C-n><Esc><CR>
+tnoremap jk <C-\><C-n><Esc><CR>
 
 " Toggle
 nnoremap <Leader>tw :set list!<CR>
@@ -687,10 +698,11 @@ nnoremap <Leader>h :Vaffle %:p:h<CR>
 " Buffer
 nnoremap <Leader>p :bprevious<CR>
 nnoremap <Leader>n :bnext<CR>
-nnoremap <Leader>b :Buffers<CR>
 nnoremap <Leader>d :bd<CR>
+nnoremap <Leader>b :Buffers<CR>
 nnoremap <Leader>bf :bfirst<CR>
 nnoremap <Leader>bl :blast<CR>
+nnoremap <Leader>bh :Startify<CR>
 
 " Windows and tabs
 nnoremap <Leader>w :Windows<CR>
@@ -719,5 +731,5 @@ nmap <Leader>? <Plug>(fzf-maps-n)
 
 
 " Initial settings
-set list
+set list!
 set nospell
