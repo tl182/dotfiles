@@ -41,8 +41,9 @@ values."
                       auto-completion-return-key-behavior 'complete
                       auto-completion-tab-key-behavior 'cycle
                       auto-completion-complete-with-key-sequence nil
-                      auto-completion-enable-snippets-in-popup t
-                      auto-completion-enable-help-tooltip t)
+                      auto-completion-complete-with-key-sequence-delay 0.1
+                      auto-completion-private-snippets-directory nil
+                      auto-completion-enable-snippets-in-popup t)
      ;; better-defaults
      emacs-lisp
      git
@@ -143,8 +144,9 @@ values."
    dotspacemacs-colorize-cursor-according-to-state t
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
    ;; quickly tweak the mode-line size to make separators look not too crappy.
-   dotspacemacs-default-font '("Source Code Pro"
-                               :size 13
+   ;; Fonts: Source Code Pro, Monaco for Powerline, Ubuntu Mono
+   dotspacemacs-default-font '("Monaco for Powerline"
+                               :size 15
                                :weight normal
                                :width normal
                                :powerline-scale 1.1)

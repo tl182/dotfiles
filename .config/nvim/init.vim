@@ -78,8 +78,8 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'Glench/Vim-Jinja2-Syntax'
 
     " JavaScript
-    Plug 'roxma/nvim-cm-tern',  { 'do': 'npm install' }
-    Plug 'ternjs/tern_for_vim'
+    Plug 'roxma/nvim-cm-tern', { 'do': 'npm install' }
+    Plug 'ternjs/tern_for_vim', { 'do': 'npm install' }
     " Plug 'othree/yajs.vim'
     Plug 'pangloss/vim-javascript'
     Plug 'maxmellon/vim-jsx-pretty'
@@ -403,7 +403,7 @@ let g:ale_linter_aliases = {'html': ['html', 'javascript', 'css']}
 " neoformat
 let g:neoformat_run_all_formatters = 1
 let g:neoformat_enabled_python = ['autopep8', 'isort']
-let g:neoformat_enabled_javascript = ['prettier']
+let g:neoformat_enabled_javascript = ['js-beautify']
 let g:neoformat_enabled_typescript = ['prettier']
 nnoremap <Localleader>f :Neoformat<CR>
 
