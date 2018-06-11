@@ -385,6 +385,7 @@ let g:jedi#auto_close_doc = 1
 
 " ale
 let g:ale_enabled = 0
+let g:ale_sign_column_always = 1
 let g:ale_set_loclist = 1
 let g:ale_set_quickfix = 0
 let g:ale_set_highlights = 0
