@@ -15,7 +15,6 @@ set -x VISUAL nvim
 # Aliases
 alias vi "nvim"
 alias vim "nvim"
-alias vimdiff "nvim -d"
 alias emacs "emacs --no-window-system"
 alias ls "ls -a --color=auto"
 

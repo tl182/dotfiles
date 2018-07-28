@@ -51,9 +51,9 @@ CPU_SCALING_MAX_FREQ_ON_BAT=1900000
 # Values are stated as a percentage of the available performance.
 # Requires an Intel Core i processor with intel_pstate driver.
 CPU_MIN_PERF_ON_AC=0
-CPU_MAX_PERF_ON_AC=80
+CPU_MAX_PERF_ON_AC=65
 CPU_MIN_PERF_ON_BAT=0
-CPU_MAX_PERF_ON_BAT=80
+CPU_MAX_PERF_ON_BAT=65
 
 # Set the CPU "turbo boost" feature: 0=disable, 1=allow
 # Requires an Intel Core i processor.
