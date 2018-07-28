@@ -1,0 +1,47 @@
+dotspacemacs-additional-packages '(editorconfig)
+dotspacemacs-maximized-at-startup t
+dotspacemacs-line-numbers 'relative
+
+
+(defun dotspacemacs/user-config ()
+  "Configuration function for user code.
+This function is called at the very end of Spacemacs initialization after
+layers configuration.
+This is the place where most of your configurations should be done. Unless it is
+explicitly specified that a variable should be set before a package is loaded,
+you should place your code here."
+  ;; Smash escape
+  (setq-default evil-escape-key-sequence "jk"
+                tab-always-indent t)
+
+  ;; Map C-r (redo) to U
+  (define-key evil-normal-state-map (kbd "U") 'undo-tree-redo)
+
+  ;; Switch windows
+  ;; (define-key evil-normal-state-map (kbd "C-j") 'evil-window-down)
+  ;; (define-key evil-normal-state-map (kbd "C-h") 'evil-window-left)
+  ;; (define-key evil-normal-state-map (kbd "C-k") 'evil-window-up)
+  ;; (define-key evil-normal-state-map (kbd "C-l") 'evil-window-right)
+
+  ;; Movements
+  ;; Normal
+  (define-key evil-normal-state-map (kbd "j") 'evil-next-visual-line)
+  (define-key evil-normal-state-map (kbd "J") (lambda () (interactive) (evil-next-visual-line 5)))
+  (define-key evil-normal-state-map (kbd "k") 'evil-previous-visual-line)
+  (define-key evil-normal-state-map (kbd "K") (lambda () (interactive) (evil-previous-visual-line 5)))
+  (define-key evil-normal-state-map (kbd "H") 'evil-first-non-blank-of-visual-line)
+  (define-key evil-normal-state-map (kbd "L") 'evil-last-non-blank)
+  ;; Visual
+  (define-key evil-visual-state-map (kbd "j") 'evil-next-visual-line)
+  (define-key evil-visual-state-map (kbd "J") (lambda () (interactive) (evil-next-visual-line 5)))
+  (define-key evil-visual-state-map (kbd "k") 'evil-previous-visual-line)
+  (define-key evil-visual-state-map (kbd "K") (lambda () (interactive) (evil-previous-visual-line 5)))
+  (define-key evil-visual-state-map (kbd "H") 'evil-first-non-blank-of-visual-line)
+  (define-key evil-visual-state-map (kbd "L") 'evil-last-non-blank)
+  ;; Insert
+  (define-key evil-insert-state-map (kbd "C-l") 'evil-forward-char)
+  (define-key evil-insert-state-map (kbd "C-h") 'evil-backward-char)
+  (define-key evil-insert-state-map (kbd "C-e") 'evil-end-of-visual-line)
+  (define-key evil-insert-state-map (kbd "C-n") 'evil-forward-word-begin)
+  (define-key evil-insert-state-map (kbd "C-p") 'evil-backward-word-begin)
+  )

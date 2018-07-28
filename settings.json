@@ -1,0 +1,51 @@
+{
+    "editor.fontFamily": "Monaco",
+    "vim.leader": "space",
+    "vim.cmdLineInitialColon": true,
+    "vim.insertModeKeyBindingsNonRecursive": [
+        {
+            "before": ["j", "k"],
+            "after": ["<Esc>"]
+        },
+    ],
+    "vim.otherModesKeyBindingsNonRecursive": [
+        {
+            "before": ["j", "k"],
+            "after": ["<Esc>"]
+        },
+        {
+            "before": ["j"],
+            "after": ["g", "j"]
+        },
+        {
+            "before": ["k"],
+            "after": ["g", "k"]
+        },
+        {
+            "before": ["J"],
+            "after": ["5", "j"]
+        },
+        {
+            "before": ["K"],
+            "after": ["5", "k"]
+        },
+        {
+            "before": ["H"],
+            "commands": [
+                {
+                    "command": "cursorMove",
+                    "args": { "to": "wrappedLineFirstNonWhitespaceCharacter" }
+                }
+            ]            
+        },
+        {
+            "before": ["L"],
+            "commands": [
+                {
+                    "command": "cursorMove",
+                    "args": { "to": "wrappedLineLastNonWhitespaceCharacter" }
+                }
+            ]            
+        }
+    ]
+}
